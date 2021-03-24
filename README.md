@@ -1,15 +1,24 @@
 # ProjetoFinalPhp
 Repositorio do projeto final de php MVC
 ------------------------------------------------------------------------------
-Notas Projeto Final Php
 
-<paginas>
-    <pag>Assosiacao</pag>
-    <pag>Associacao/galeria</pag>
-    <pag>Noticia</pag>
-    <pag>Evento</pag>
-    <pag>Pessoal</pag>
-    <pag>Quotas</pag>
-</paginas>
+## Notas Projeto Final Php
 
--- usar crontab do php para notificação email
+
+- Assosiacao
+- Associacao/galeria
+- Noticia
+- Evento
+- Pessoal
+- Quotas
+
+###Ideias Projeto
+* ``
+usar crontab do php para notificação email
+``
+## **ToDo**
+- **Run the cron bash file of your respective system in your server so that the email notifications work**
+    - `os -> description (comand)`  
+    - **Windows -> got to the file location and run (cron.bat)**  
+    - **linux -> got to the file location and run (sh cron.sh)**
+    
