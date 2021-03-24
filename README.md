@@ -12,3 +12,4 @@ Notas Projeto Final Php
     <pag>Quotas</pag>
 </paginas>
 
+-- usar crontab do php para notificação email
