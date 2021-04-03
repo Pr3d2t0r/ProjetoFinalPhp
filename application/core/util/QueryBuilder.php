@@ -43,6 +43,11 @@ class QueryBuilder implements QueryBuilderInterface{
         return $this;
     }
 
+    public function on(string $exp){
+        $this->query .= " on $exp";
+        return $this;
+    }
+
     /**
      * order by
      * @param string $field

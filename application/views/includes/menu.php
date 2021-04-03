@@ -1,4 +1,5 @@
 <nav>
+    <a href="<?php echo HOME_URI;?>" id="logo">Bleet</a>
     <ul>
         <li><a href="<?php echo HOME_URI;?>">Home</a></li>
         <?php if (!$this->isUserLogedIn()): ?>

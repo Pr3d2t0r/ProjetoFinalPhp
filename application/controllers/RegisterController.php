@@ -18,6 +18,7 @@ class RegisterController extends MainController{
      */
     public function __construct(){
         parent::__construct();
+        $this->stylesheet = "auth.css";
     }
 
     /**

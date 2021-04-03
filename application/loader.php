@@ -13,22 +13,25 @@ if ( !defined('DEBUG') || DEBUG === false ) {
 /*Zona de requires*/
 require APPLICATIONPATH . '/libraries/autoloader.php';
 require APPLICATIONPATH . '/libraries/util.php';
-require_once APPLICATIONPATH . '/controllers/HomeControler.php';
+require_once APPLICATIONPATH . '/controllers/HomeController.php';
+require_once APPLICATIONPATH . '/controllers/ErrorController.php';
 require_once APPLICATIONPATH . '/controllers/LoginController.php';
 require_once APPLICATIONPATH . '/controllers/RegisterController.php';
-require_once APPLICATIONPATH . '/controllers/adminController.php';
+require_once APPLICATIONPATH . '/controllers/AssociacaoController.php';
 require_once APPLICATIONPATH . '/pageHandlers/LoginHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/HomeHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/RegisterHandler.php';
 /*end*/
 
 $app = new Application();
-$app->router->get('/', new HomeControler);
-$app->router->get('home/', new HomeControler);
+$app->router->get('404', new ErrorController);
+$app->router->get('500', new ErrorController);
+$app->router->get('/', new HomeController);
+$app->router->get('home/', new HomeController);
 $app->router->post('home/', new HomeHandler);
 $app->router->get('login/', new LoginController);
 $app->router->post('login/', new LoginHandler);
 $app->router->get('register/', new RegisterController);
 $app->router->post('register/', new RegisterHandler);
-$app->router->get('admin/', new AdminController);
+$app->router->get('associacao/', new AssociacaoController);
 $app->run();

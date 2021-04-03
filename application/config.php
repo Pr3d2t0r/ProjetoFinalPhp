@@ -7,7 +7,7 @@
 /**Nome da pasta root do projeto
  *Em caso que o projeto esteja na root do servidor deixe esta variavel vazia
  */
-define("ROOTFOLDERNAME", "mvcFramwork/");
+define("ROOTFOLDERNAME", "ProjetoFinalPhp/");
 
 // Caminho para a pasta application
 define('APPLICATIONPATH',dirname(__FILE__));

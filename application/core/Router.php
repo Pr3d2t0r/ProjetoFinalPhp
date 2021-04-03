@@ -42,8 +42,13 @@ class Router{
         if(isset($this->routes[$request->page][$request->method]))
             if (method_exists($this->routes[$request->page][$request->method], $request->action)) {
                 $this->routes[$request->page][$request->method]->{$request->action}($request->parameters);
-                return true;
+                return;
             }
-        return false;
+        if(isset($this->routes['404']['get'])){
+            $this->routes['404']['get']->index(['errorCode' => '404']);
+            return;
+        }
+        include_once APPLICATIONPATH."/views/includes/404.php";
+        return;
     }
 }
