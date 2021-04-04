@@ -21,9 +21,9 @@ class Request{
 
     /**
      * Guarda os parametros
-     * @var array|null
+     * @var array
      */
-    public array|null $parameters;
+    public array $parameters;
 
     /**
      * Retorna o metodo do pedido
@@ -56,7 +56,7 @@ class Request{
             return $value != "";
         });
         if (count($path)>2) $path = array_splice($path, 2);
-        else $path = null;
+        else $path = [];
         if (isset($_GET)) {
             $path = $path ?? [];
             foreach ($_GET as $key => $value)

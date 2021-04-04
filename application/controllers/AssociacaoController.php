@@ -7,9 +7,6 @@
  */
 class AssociacaoController extends MainController{
 
-    /**
-     * LoginController constructor.
-     */
     public function __construct(){
         parent::__construct();
         $this->stylesheet="associacao.css";
@@ -21,10 +18,6 @@ class AssociacaoController extends MainController{
      * Pagina index
      */
     public function index(){
-        if ($this->loggedIn){
-            gotoPage('home/');
-            return;
-        }
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
         $nextPage = null;
         if (isset($parametros['get']['next']))

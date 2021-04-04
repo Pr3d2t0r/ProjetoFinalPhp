@@ -12,6 +12,7 @@ body {
 }
 p, h1, h2, h3, h4, h5, a, li{
     font-family: 'Lato', sans-serif;
+    color: #102b3e;
 }
 nav{
     position: relative;

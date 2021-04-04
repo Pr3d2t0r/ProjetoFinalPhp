@@ -39,11 +39,17 @@ class Router{
      * @return null
      */
     public function use(Request $request){
-        if(isset($this->routes[$request->page][$request->method]))
+        if(isset($this->routes[$request->page][$request->method])) {
             if (method_exists($this->routes[$request->page][$request->method], $request->action)) {
                 $this->routes[$request->page][$request->method]->{$request->action}($request->parameters);
                 return;
             }
+            if (is_numeric($request->action)){
+                array_unshift($request->parameters, $request->action);
+                $this->routes[$request->page][$request->method]->index($request->parameters);
+                return;
+            }
+        }
         if(isset($this->routes['404']['get'])){
             $this->routes['404']['get']->index(['errorCode' => '404']);
             return;
