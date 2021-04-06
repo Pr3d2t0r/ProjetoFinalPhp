@@ -19,10 +19,13 @@ define('ABSPATH', dirname(APPLICATIONPATH));
 define('PUBLICPATH', ABSPATH . '/public');
 
 // Caminho para a pasta de uploads
-define('UP_ABSPATH', ABSPATH . '/application/views/_uploads');
+define('UP_ABSPATH', ABSPATH . '/public/uploads');
 
 // URL da home
-define('HOME_URI', "http://$_SERVER[HTTP_HOST]".(($_SERVER['SERVER_PORT'] === "80") ? '' : $_SERVER['SERVER_PORT'])."/".ROOTFOLDERNAME);
+define('HOME_URI', "http://".$_SERVER['HTTP_HOST']."/".ROOTFOLDERNAME);
+
+// Caminho para a pasta de uploads
+define('UP_URI', HOME_URI . 'public/uploads');
 
 // Nome do host do servidor MYSQL
 define('DB_HOSTNAME', 'localhost');
@@ -55,6 +58,9 @@ define('PASSWORDMINSIZE', 3);
  * e tem de estar entre 3 e 30 caracteres
  */
 define('USERNAMEREGEXVALIDATOR', '/^[a-zA-Z0-9]([_-](?![_-])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9]$/');
+
+// define o tamanho maxximo dos ficheiros para upload
+define("MAXFILESIZE", 5000000);
 
 // ----------- Fim de configurações de aplicação ------------------------------------------------------
 

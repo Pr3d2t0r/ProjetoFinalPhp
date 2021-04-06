@@ -6,8 +6,8 @@ class RegisterHandler extends PageHandler{
     public PasswordHash $passwordHasher;
 
     public function __construct(){
-        $this->db = new Db;
         $this->passwordHasher = new PasswordHash();
+        $this->model = $this->loadModel('UserModel');
     }
 
     public function index(){
@@ -24,7 +24,7 @@ class RegisterHandler extends PageHandler{
                 return;
             }
         }
-        if ($this->db->usernameExists($username)){
+        if ($this->model->usernameExists($username)){
             gotoPage($parametros['get']['path'] . '?error=ue');
             return;
         }
@@ -47,9 +47,25 @@ class RegisterHandler extends PageHandler{
             gotoPage($parametros['get']['path'] . '?error=nep');
             return;
         }
-        $this->db->insert('user')->values([':username', ':password', ':permissions'], ['username','password','permissions'])->runQuery([':username'=>$username, ':password'=>$this->passwordHasher->encrypt($password),':permissions'=>serialize(['Any'])]);
+        if (!isset($_POST['nome']) || empty($_POST['nome'])){
+            gotoPage($parametros['get']['path'] . '?error=enf');
+            return;
+        }
+        $nome = $_POST['nome'];
+        if (!isset($_POST['email']) || empty($_POST['email'])){
+            gotoPage($parametros['get']['path'] . '?error=eef');
+            return;
+        }
+        $email = $_POST['email'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            gotoPage($parametros['get']['path'] . '?error=ei');
+            return;
+        }
+        $hashedPassword = $this->passwordHasher->encrypt($password);
+        $this->model->insert($username, $hashedPassword, $email, $nome, 1);
         if (isset($_POST['nextPage']) && $_POST['nextPage'] != "") {
-            gotoPage($_POST['nextPage'].'?success=3');
+            $prefix = (str_contains($_POST['nextPage'], '?'))?'&':'?';
+            gotoPage($_POST['nextPage'].$prefix.'success=3');
             return;
         }
         gotoPage('login/?success=3');

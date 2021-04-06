@@ -66,24 +66,12 @@ class Db extends QueryBuilder{
     }
 
     /**
-     * Verifica se o username existe
-     * @param $username
-     * @return bool
-     */
-    public function usernameExists($username): bool{
-        $result = $this->select(['id'])->from('user')->where('username=:username')->runQuery([':username'=>$username]);
-        if (isset($result[0]))
-            return true;
-        return false;
-    }
-
-    /**
      * Retorna a informação para um respetivo user
      * @param $id
      * @return mixed|null
      */
     public function getUserInfo($id){
-        $result = $this->select()->from('user')->where('id=:id')->limit(1)->runQuery([':id'=>$id]);
+        $result = $this->select()->from('socio')->where('id=:id')->limit(1)->runQuery([':id'=>$id]);
         if (isset($result[0])) {
             $result[0]->permissions = unserialize($result[0]->permissions);
             return $result[0];

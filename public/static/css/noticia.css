@@ -1,4 +1,4 @@
-p, h1{
+p, h1, a{
     color: #1cc8a0 !important;
 }
 
@@ -68,6 +68,7 @@ p, h1{
 
 .banner .grid div form input[type="submit"], .sbmt-btn {
     text-decoration: none;
+    margin-top: 15px;
     margin-bottom: 60px;
     padding: 5px 10px;
     border: solid 1px #1cc8a0;
@@ -76,6 +77,11 @@ p, h1{
     font-size: 16px;
     background-color: #102b3e;
     border-radius: 9px;
+}
+
+.banner .grid div form input[type="file"]{
+    height: 125px;
+    width: 300px;
 }
 
 .banner .grid div form textarea{

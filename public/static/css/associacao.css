@@ -41,6 +41,7 @@
 }
 .controls .grid .col i{
     font-size: 35px;
+    color: #102b3e;
 }
 
 .controls .grid .col:first-child{

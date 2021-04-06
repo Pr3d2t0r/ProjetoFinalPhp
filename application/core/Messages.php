@@ -55,7 +55,6 @@ class Messages{
     private static function getMsg($name, $msg){
         if (isset(self::$msgs[$name][$msg]))
             return self::$msgs[$name][$msg];
-        include_once APPLICATIONPATH.'/views/includes/404.php';
         return null;
     }
 }
