@@ -71,7 +71,9 @@ class Db extends QueryBuilder{
      * @return mixed|null
      */
     public function getUserInfo($id){
-        $result = $this->select()->from('socio')->where('id=:id')->limit(1)->runQuery([':id'=>$id]);
+        $result = $this->select(['socio.*', 'associacao.nome as associacaoNome'])->from('socio inner join associacao')->on('associacao.id=socio.associacaoId')->where('socio.id=:id')->limit(1)->runQuery([':id'=>$id]);
+        if (LoginCore::isSuperAdmin($id))
+            $result = $this->select()->from('socio')->where('id=:id')->limit(1)->runQuery([':id'=>$id]);
         if (isset($result[0])) {
             $result[0]->permissions = unserialize($result[0]->permissions);
             return $result[0];

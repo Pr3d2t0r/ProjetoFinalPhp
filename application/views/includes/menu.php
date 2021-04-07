@@ -8,6 +8,11 @@
         <?php else: ?>
             <li><a href="<?php echo HOME_URI;?>login/logout">Logout</a></li>
             <li><a href="<?php echo HOME_URI;?>login/logout/all">Logout All</a></li>
+            <?php if ($this->superAdm !== true): ?>
+                <li><a href="<?php echo HOME_URI.'associacao/'.$this->userInfo->associacaoId;?>"><?php echo $this->userInfo->associacaoNome; ?></a></li>
+            <?php else:?>
+                <li><a href="<?php echo HOME_URI;?>associacao/all">Associações</a></li>
+            <?php endif;?>
             <li>Welcome <?php echo $this->userInfo->username; ?></li>
         <?php endif; ?>
     </ul>

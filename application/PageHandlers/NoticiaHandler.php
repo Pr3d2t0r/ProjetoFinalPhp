@@ -56,6 +56,11 @@ class NoticiaHandler extends PageHandler{
             return;
         }
         $assocId = $_POST['associacaoId'];
+        $userAssocId = (new Db)->getUserInfo($userId)->associacaoId;
+        if ($assocId != $userAssocId && !LoginCore::isSuperAdmin($userId)){
+            gotoPage("home/?error=afen");
+            return;
+        }
         $this->model->insert($titulo, $conteudo, $path, $assocId);
         $id = $this->model->getLatestId();
         gotoPage("noticia/$id?success=4");
@@ -86,6 +91,15 @@ class NoticiaHandler extends PageHandler{
                 gotoPage($_GET['path'] . '?error=iis');
                 return;
             }
+            $userId = LoginCore::getUserId();
+            if ($userId == false){
+                gotoPage('login/?error=af&next='.$_GET['path'].(isset($_POST['nextPage']) ? '?'.$_POST['nextPage'] : ''));
+                return;
+            }
+            if (!$this->model->userIsOnNoticiaAssociacao($parametros[0]) && !LoginCore::isSuperAdmin($userId)){
+                gotoPage("home/?error=afen");
+                return;
+            }
             do{
                 $newName = md5(mt_rand(1,50000000000)).'.'.str_replace("image/", '', $imagem['type']);
                 $dir = UP_URI . "/noticias/";
@@ -98,10 +112,6 @@ class NoticiaHandler extends PageHandler{
                 gotoPage('500');
                 return;
             }
-        }
-        if (LoginCore::getUserId() == false){
-            gotoPage('login/?error=af&next='.$_GET['path'].(isset($_POST['nextPage']) ? '?'.$_POST['nextPage'] : ''));
-            return;
         }
         if ($imagem !== null) {
             $this->model->update($id, $titulo, $conteudo, $path);

@@ -25,14 +25,21 @@ class LoginCore{
     protected Db $db;
 
     /**
+     * Super admin true|false
+     * @var bool
+     */
+    public $superAdm;
+
+    /**
      * LoginCore constructor.
      */
     public function __construct(){
         $this->db = new Db;
         $this->passwordHasher = new PasswordHash();
-        $this->loggedIn = $this->isUserLogedIn() != false;
+        $this->loggedIn = $this->isUserLogedIn() !== false;
         $this->userInfo = $this->db->getUserInfo($this->isUserLogedIn());
-
+        if ($this->loggedIn)
+            $this->superAdm = LoginCore::isSuperAdmin($this->userInfo->id);
     }
 
     /**
@@ -75,6 +82,18 @@ class LoginCore{
         setcookie("loginToken", '0', time() - 3600);
         setcookie("loginToken_", '0', time() - 3600);
 
+    }
+
+    /**
+     * Retor true se for um superadmin e false senao for super admin
+     * @param $id
+     * @return bool
+     */
+    public static function isSuperAdmin($id){
+        $db = new Db;
+        $permissions = $db->select(['permissions'])->from('socio')->where("id=:id")->limit(1)->runQuery([':id'=>$id])[0]->permissions;
+        $permissions = unserialize($permissions);
+        return in_array('Superadmin', $permissions);
     }
 
     /**
