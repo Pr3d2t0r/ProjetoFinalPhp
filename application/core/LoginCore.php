@@ -37,9 +37,10 @@ class LoginCore{
         $this->db = new Db;
         $this->passwordHasher = new PasswordHash();
         $this->loggedIn = $this->isUserLogedIn() !== false;
-        $this->userInfo = $this->db->getUserInfo($this->isUserLogedIn());
-        if ($this->loggedIn)
+        if ($this->loggedIn) {
+            $this->userInfo = $this->db->getUserInfo($this->isUserLogedIn());
             $this->superAdm = LoginCore::isSuperAdmin($this->userInfo->id);
+        }
     }
 
     /**
