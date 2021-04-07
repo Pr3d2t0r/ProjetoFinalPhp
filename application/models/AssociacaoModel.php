@@ -9,21 +9,19 @@ class AssociacaoModel extends MainModel{
 
     public function getAssociacaoInfo($id){
         $assocInfo = $this->db->select()->from($this->tableName)->where("id=:id")->runQuery([':id'=>$id]);
-        if (in_array('Gerir Associações', $this->info->permissions) && $this->userIsOnAssociacao($id))
-            $assocInfo['socios'] = $this->db->select()->from('inscricoes')->where("associacaoId=:id")->runQuery([':id'=>$id]);
-        return $assocInfo;
+        if (isset($assocInfo[0])) {
+            $assocInfo[0]->socios = $this->db->select()->from('socio')->where("associacaoId=:id")->runQuery([':id' => $id]);
+            return $assocInfo[0];
+        }
+        return false;
     }
 
     public function getAll(){
-        $result = $this->db->select()->from($this->tableName)->runQuery();
-        for ($i=0;$i<count($result);$i++){
-            $result[$i]->permissions = unserialize($result[$i]->permissions);
-        }
-        return $result;
+        return $this->db->select()->from($this->tableName)->runQuery();
     }
 
-    private function userIsOnAssociacao($id){
-        $result = $this->db->select(['id'])->from($this->tableName)->where("userId=:userId and associacaoId=:associacaoId")->runQuery([':userId'=>$this->info->id, ':associacaoId'=>$id]);
+    public function userIsOnAssociacao($id){
+        $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=:associacaoId")->runQuery([':id'=>$this->info->id, ':associacaoId'=>$id]);
         return isset($result[0]);
     }
 }

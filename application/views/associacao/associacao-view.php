@@ -19,123 +19,23 @@
         </div>
         <div class="col">
             <div>
-                <h1>Nome</h1>
-                <p>291365264</p>
-                <p>Travessa de santa quiteria nº18</p>
+                <h1><?php echo $assoc->nome; ?></h1>
+                <p>Telefone: <?php echo $assoc->telefone; ?></p>
+                <p>Morada: <?php echo $assoc->morada; ?></p>
+                <p>Nº de contribuinte: <?php echo $assoc->nContribuinte; ?></p>
             </div>
         </div>
     </div>
+    <?php if ($adm): ?>
+        <div class="grid">
+            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
+            <div><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
+        </div>
+    <?php endif; ?>
     <div class="title">
         <h1>Socios</h1>
     </div>
     <div class="socio-grid">
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="body">
-                <div>
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <div>
-                    <h2>Nome do socio</h2>
-                    <p>email@email.com</p>
-                    <p>Username</p>
-                </div>
-            </div>
-        </article>
+        <?php echo $socios; ?>
     </div>
 </div>

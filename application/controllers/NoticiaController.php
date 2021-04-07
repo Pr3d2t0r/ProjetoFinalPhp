@@ -21,13 +21,23 @@ class NoticiaController extends MainController{
             gotoPage("login/?error=af&next=$pagina");
             return;
         }
+        if (!isset($parametros[0])){
+            include_once APPLICATIONPATH.'/views/includes/header.php';
+            include_once APPLICATIONPATH.'/views/includes/menu.php';
+            include_once APPLICATIONPATH.'/views/includes/404.php';
+            include_once APPLICATIONPATH.'/views/includes/footer.php';
+            return;
+        }
         $noticia = $this->model->getNoticia($parametros[0]);
         if ($noticia === false) {
-            gotoPage("404");
+            include_once APPLICATIONPATH.'/views/includes/header.php';
+            include_once APPLICATIONPATH.'/views/includes/menu.php';
+            include_once APPLICATIONPATH.'/views/includes/404.php';
+            include_once APPLICATIONPATH.'/views/includes/footer.php';
             return;
         }
         $adm = false;
-        if ($this->loggedIn && $this->hasPermissions($this->permission_required, $this->userInfo->permissions)){
+        if ($this->hasPermissions($this->permission_required, $this->userInfo->permissions)){
             if($this->userInfo->associacaoId == $noticia->associacaoId || in_array('Superadmin', $this->userInfo->permissions))
                 $adm = true;
         }
@@ -82,7 +92,7 @@ class NoticiaController extends MainController{
         if ($noticia === false)
             gotoPage("404");
         if (!$this->loggedIn){
-            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?'?next='.$nextPage:""));
             return;
         }
         if (!$this->hasPermissions($this->permission_required, $this->userInfo->permissions)){
