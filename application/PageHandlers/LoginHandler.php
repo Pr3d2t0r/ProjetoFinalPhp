@@ -35,6 +35,6 @@ class LoginHandler extends PageHandler{
             gotoPage($_POST['nextPage'].$prefix.'success=1');
             return;
         }
-        gotoPage('?success=1');
+        gotoPage('pessoal/?success=1');
     }
 }

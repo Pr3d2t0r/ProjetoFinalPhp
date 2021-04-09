@@ -13,6 +13,7 @@
             <?php else:?>
                 <li><a href="<?php echo HOME_URI;?>associacao/all">Associações</a></li>
             <?php endif;?>
+            <li><a href="<?php echo HOME_URI;?>pessoal/">Pessoal</a></li>
             <li>Welcome <?php echo $this->userInfo->username; ?></li>
         <?php endif; ?>
     </ul>

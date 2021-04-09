@@ -26,7 +26,7 @@ create table if not exists associacao(
     nContribuinte varchar(10) not null
 );
 
-create table imagensAssociacao(
+create table if not exists imagensAssociacao(
     id int(11) primary key auto_increment,
     caminho varchar(255) not null,
     associacaoId int(11) not null
@@ -44,7 +44,15 @@ create table if not exists eventos(
     id int(11) primary key auto_increment,
     titulo varchar(120) not null,
     conteudo varchar(255) not null,
-    associacaoId int(11) not null
+    associacaoId int(11) not null,
+    data datetime not null
+);
+
+create table if not exists sendemaillist(
+    id int(11) primary key auto_increment,
+    data datetime not null,
+    #Guarda um Objeto Email Serializado
+    email varchar(255) not null
 );
 
 create table if not exists eventoInscricoes(
@@ -58,11 +66,20 @@ create table if not exists quotas(
     socioId int(11) not null,
     dataComeco date not null,
     dataTermino date not null,
-    preco int(4)
+    preco int(4) not null,
+    # active | inactive
+    status varchar(12) not null
 );
 
 create table if not exists notificacoes(
     id int(11) primary key auto_increment,
     socioId int(11) not null,
+    # Guarda um objeto Notificação serializado
     conteudo varchar(255) not null
+);
+
+create table if not exists noticiasGostos(
+    id int(11) primary key auto_increment,
+    noticiaId int(11) not null,
+    socioId int(11) not null
 );

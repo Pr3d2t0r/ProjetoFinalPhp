@@ -13,6 +13,7 @@ if ( !defined('DEBUG') || DEBUG === false ) {
 /*Zona de requires*/
 require APPLICATIONPATH . '/libraries/autoloader.php';
 require APPLICATIONPATH . '/libraries/util.php';
+
 require_once APPLICATIONPATH . '/controllers/HomeController.php';
 require_once APPLICATIONPATH . '/controllers/ErrorController.php';
 require_once APPLICATIONPATH . '/controllers/LoginController.php';
@@ -22,17 +23,16 @@ require_once APPLICATIONPATH . '/controllers/EventoController.php';
 require_once APPLICATIONPATH . '/controllers/NoticiaController.php';
 require_once APPLICATIONPATH . '/controllers/PessoalController.php';
 require_once APPLICATIONPATH . '/pageHandlers/LoginHandler.php';
-require_once APPLICATIONPATH . '/pageHandlers/HomeHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/RegisterHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/NoticiaHandler.php';
+require_once APPLICATIONPATH . '/pageHandlers/PessoalHandler.php';
 /*end*/
 
 $app = new Application();
-$app->router->get('404', new ErrorController);
-$app->router->get('500', new ErrorController);
+$app->router->get('404/', new ErrorController);
+$app->router->get('500/', new ErrorController);
 $app->router->get('/', new HomeController);
 $app->router->get('home/', new HomeController);
-$app->router->post('home/', new HomeHandler);
 $app->router->get('login/', new LoginController);
 $app->router->post('login/', new LoginHandler);
 $app->router->get('register/', new RegisterController);
@@ -42,4 +42,5 @@ $app->router->get('evento/', new EventoController);
 $app->router->get('noticia/', new NoticiaController);
 $app->router->post('noticia/', new NoticiaHandler);
 $app->router->get('pessoal/', new PessoalController);
+$app->router->post('pessoal/', new PessoalHandler);
 $app->run();

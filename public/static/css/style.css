@@ -33,6 +33,10 @@ nav #logo{
     margin-left: 40px;
 }
 
+a{
+    text-decoration: none;
+}
+
 nav ul{
     position: absolute;
     right: 0;
@@ -46,12 +50,12 @@ nav ul li{
     margin-left: 30px;
 }
 
-nav ul li a:hover{
+nav ul li a:hover:not(#welcome){
     color: #1cc8a0;
     letter-spacing: 1px;
 }
 
-nav ul li a{
+nav ul li a:not(#welcome){
     text-decoration: none;
     color: #102b3e;
     font-family: 'Ubuntu', sans-serif;
