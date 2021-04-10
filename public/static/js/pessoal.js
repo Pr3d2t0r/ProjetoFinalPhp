@@ -7,12 +7,17 @@ function menuClick() {
         "Conta":"conta",
         "Quotas":"quotas",
         "Eventos que participou":"eventos",
-        "Noticias que gostou":"noticias"
+        "Noticias que gostou":"noticias",
+        "Socios": 'socios',
+        "Noticias": 'noticias',
+        "Eventos Ativos": 'eventos'
     }
     var clikedId = options[this.innerText];
     delete options[this.innerText];
     document.getElementById(clikedId).style.display = "block";
+    //console.log("Id: "+clikedId);
     for (var i in options) {
-        document.getElementById(options[i]).style.display = "none";
+        if (options[i] !== clikedId)
+            document.getElementById(options[i]).style.display = "none";
     }
 }

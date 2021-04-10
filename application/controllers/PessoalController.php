@@ -14,13 +14,32 @@ class PessoalController extends MainController{
             gotoPage('home/?error=af');
             return;
         }
+        $superAdm = $this->hasPermissions('Superadmin', $this->userInfo->permissions);
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
         $nextPage = null;
         if (isset($parametros['get']['next']))
             $nextPage = $parametros['get']['next'];
+        $pageNum = $parametros['get']['page'] ?? 3;
         $eventos = $this->model->getUserEventos($this->userInfo->id);
         $noticias = $this->model->getUserNoticiasGostadas($this->userInfo->id);
         $quotas = $this->model->getUserQuotas($this->userInfo->id);
+        if ($this->hasPermissions('admin')){
+            //todo
+        }
+        if ($superAdm){
+            $eventos = $this->model->getAllEventos();
+            $quotas = $this->model->getAllQuotas();
+            $noticias = $this->model->getAllNoticias();
+        }
+        $nextPageNum = $pageNum+1;
+        $previousPageNum = $pageNum-1;
+        $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
+        $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
+        $quotasPaginator = (new Paginator($quotas, page: $pageNum))->prepare()->use();
+        $noticias = $noticiasPaginator->itens;
+        $eventos = $eventosPaginator->itens;
+        $quotas = $quotasPaginator->itens;
+
         $eventosHTML = "<p>Este user ainda não participou em nenhum evento!</p>";
         if (count($eventos)>0){
             $eventosHTML = iterate($eventos, function ($el){
@@ -83,7 +102,6 @@ class PessoalController extends MainController{
             });
             $quotasHTML = implode(' ', $quotasHTML);
         }
-        $superAdm = $this->hasPermissions('Superadmin', $this->userInfo->permissions);
 
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';

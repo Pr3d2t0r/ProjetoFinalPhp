@@ -11,7 +11,6 @@
                     <li>Socios</li>
                     <li>Noticias</li>
                     <li>Eventos Ativos</li>
-                    <li>Eventos Inativos</li>
                 <?php endif; ?>
             </ul>
         </div>
@@ -48,46 +47,72 @@
                     </div>
                 </form>
             </article>
-            <?php if (!$superAdm): ?>
-                <article id="quotas">
-                    <p>Quotas</p>
-                    <?php echo $quotasHTML; ?>
-                    <div class="controls grid">
-                        <div>
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </div>
-                        <div>
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </div>
-                    </div>
-                </article>
-                <article id="eventos">
-                    <p>Eventos que participou</p>
-                    <?php echo $eventosHTML; ?>
+            <article id="noticias">
+                <p>Noticias que gostou</p>
+                <?php echo $noticiasHTML; ?>
+                <?php if ($noticiasPaginator->show):?>
                     <div class="eventos-controls controls grid">
                         <div>
                             <i class="fas fa-arrow-circle-left"></i>
                         </div>
                         <div>
+                            <span><small>Pagina: <?php echo $noticiasPaginator->pageNum; ?></small></span>
+                        </div>
+                        <div>
                             <i class="fas fa-arrow-circle-right"></i>
                         </div>
                     </div>
-                </article>
-                <article id="noticias">
-                <p>Noticias que gostou</p>
-                <?php echo $noticiasHTML; ?>
-                <div class="eventos-controls controls grid">
-                    <div>
-                        <i class="fas fa-arrow-circle-left"></i>
-                    </div>
-                    <div>
-                        <i class="fas fa-arrow-circle-right"></i>
-                    </div>
-                </div>
+                <?php endif; ?>
             </article>
-            <?php //else: ?>
+            <article id="quotas">
+                <p>Quotas</p>
+                <?php echo $quotasHTML; ?>
+                <?php if ($quotasPaginator->show): ?>
+                    <div class="controls grid">
+                        <div>
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </div>
+                        <div>
+                            <span><small>Pagina: <?php echo $quotasPaginator->pageNum; ?></small></span>
+                        </div>
+                        <div>
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </article>
+            <?php if ($superAdm): ?>
+                <article id="socios">
+
+                </article>
+            <?php else: ?>
             <?php endif; ?>
+            <article id="eventos">
+                <?php if (!$superAdm): ?>
+                    <p>Eventos que participou</p>
+                <?php else: ?>
+                    <p>Eventos Ativos</p>
+                <?php endif; ?>
+                <?php echo $eventosHTML; ?>
+                <?php if ($eventosPaginator->show): ?>
+                    <div class="eventos-controls controls grid">
+                        <div>
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </div>
+                        <div>
+                            <span><small>Pagina: <?php echo $eventosPaginator->pageNum; ?></small></span>
+                        </div>
+                        <div>
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </article>
         </div>
     </div>
 </div>
 <script src="<?php echo HOME_URI . 'public/static/js/pessoal.js';?>"></script>
+
+<?php
+    //todo acabar de implementar o paginator adicionar as forms nos btns e verificar por erros etc
+?>

@@ -53,6 +53,20 @@ class UserModel extends MainModel{
         return $result;
     }
 
+    public function getAssociacaoInfo($assocId=null){
+        $result = $this->db->select()->from('associacao')->where('id=:id')->runQuery([':id'=>$this->info->associacaoId]);
+        if ($assocId === null)
+            $result = $this->db->select()->from('associacao')->where('id=:id')->runQuery([':id'=>$assocId]);
+        if (isset($result[0])){
+            $result[0]->socios = $this->getSociosAssocs($assocId);
+            return $result;
+        }
+    }
+
+    public function getSociosAssocs($assocId){
+        return $this->db->select()->from('socios')->where('asssocId=:asssocId')->runQuery([':asssocId'=>$assocId]);
+    }
+
     public function getUser($id=null, $username=null){
         if ($username !== null)
             return $this->db->select()->from('socio')->where('username=:username')->limit(1)->runQuery([':username'=>$username]);
@@ -98,5 +112,17 @@ class UserModel extends MainModel{
         if (isset($result[0]))
             return true;
         return false;
+    }
+
+    public function getAllQuotas(){
+        return $this->db->select(['quotas.*', 'socio.nome'])->from('quotas inner join socio')->on('quotas.socioId=socio.id')->runQuery();
+    }
+
+    public function getAllEventos(){
+        return $this->db->select(['eventos.*','associacao.nome'])->from('eventos inner join associacao')->on('eventos.associacaoId=associacao.id')->runQuery();
+    }
+
+    public function getAllNoticias(){
+        return $this->db->select(['noticias.*','associacao.nome'])->from('noticias inner join associacao')->on('noticias.associacaoId=associacao.id')->runQuery();
     }
 }
