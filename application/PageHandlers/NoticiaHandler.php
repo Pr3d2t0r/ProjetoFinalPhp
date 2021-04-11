@@ -11,6 +11,11 @@ class NoticiaHandler extends PageHandler{
     }
 
     public function criar(){
+        $userId = LoginCore::getUserId();
+        if ($userId == false){
+            gotoPage('?error=af');
+            return;
+        }
         if (!isset($_POST['titulo']) || empty($_POST['titulo'])) {
             gotoPage($_GET['path'] . '?error=fe');
             return;
@@ -44,11 +49,6 @@ class NoticiaHandler extends PageHandler{
         if(move_uploaded_file($imagem['tmp_name'], $absPath) === false){
             echo $absPath;
             gotoPage('500');
-            return;
-        }
-        $userId = LoginCore::getUserId();
-        if ($userId == false){
-            gotoPage('?error=af');
             return;
         }
         if (!isset($_POST['associacaoId']) || empty($_POST['associacaoId']) || $_POST['associacaoId'] == "None"){
