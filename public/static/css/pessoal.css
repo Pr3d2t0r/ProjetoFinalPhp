@@ -110,6 +110,14 @@
 #quotas .quota-card:first-child{
     margin-top: 15px;
 }
+#socios .quota-card{
+    border: solid 2px #1cc8a0;
+    padding: 10px;
+}
+
+#socios .quota-card:first-child{
+    margin-top: 15px;
+}
 
 .controls{
     color: #1cc8a0;

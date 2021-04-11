@@ -48,19 +48,33 @@
                 </form>
             </article>
             <article id="noticias">
-                <p>Noticias que gostou</p>
+                <?php if (!$superAdm): ?>
+                    <p>Noticias que gostou</p>
+                <?php else: ?>
+                    <p>Noticias</p>
+                <?php endif; ?>
                 <?php echo $noticiasHTML; ?>
                 <?php if ($noticiasPaginator->show):?>
                     <div class="eventos-controls controls grid">
-                        <div>
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </div>
+                        <?php if ($noticiasPaginator->hasPreviousPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $noticiasPaginator->pageNum - 1; ?>">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                         <div>
                             <span><small>Pagina: <?php echo $noticiasPaginator->pageNum; ?></small></span>
                         </div>
-                        <div>
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </div>
+                        <?php if ($noticiasPaginator->hasNextPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $noticiasPaginator->pageNum + 1; ?>">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </article>
@@ -69,24 +83,28 @@
                 <?php echo $quotasHTML; ?>
                 <?php if ($quotasPaginator->show): ?>
                     <div class="controls grid">
-                        <div>
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </div>
+                        <?php if ($quotasPaginator->hasPreviousPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum - 1; ?>">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                         <div>
                             <span><small>Pagina: <?php echo $quotasPaginator->pageNum; ?></small></span>
                         </div>
-                        <div>
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </div>
+                        <?php if ($quotasPaginator->hasNextPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum + 1; ?>">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </article>
-            <?php if ($superAdm): ?>
-                <article id="socios">
-
-                </article>
-            <?php else: ?>
-            <?php endif; ?>
             <article id="eventos">
                 <?php if (!$superAdm): ?>
                     <p>Eventos que participou</p>
@@ -96,22 +114,38 @@
                 <?php echo $eventosHTML; ?>
                 <?php if ($eventosPaginator->show): ?>
                     <div class="eventos-controls controls grid">
-                        <div>
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </div>
+                        <?php if ($eventosPaginator->hasPreviousPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                         <div>
                             <span><small>Pagina: <?php echo $eventosPaginator->pageNum; ?></small></span>
                         </div>
-                        <div>
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </div>
+                        <?php if ($eventosPaginator->hasNextPage): ?>
+                            <div>
+                                <form action="">
+                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </article>
+            <?php if ($superAdm): ?>
+                <article id="socios">
+                    <p>Socios</p>
+                    <?php echo $sociosHTML ?>
+                </article>
+            <?php else: ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
-<script src="<?php echo HOME_URI . 'public/static/js/pessoal.js';?>"></script>
 
 <?php
     //todo acabar de implementar o paginator adicionar as forms nos btns e verificar por erros etc

@@ -35,7 +35,13 @@ abstract class MainController extends LoginCore implements Controller{
      * Guarda o nome da folha de estilo caso tenha
      * @var $stylesheet
      */
-    public $stylesheet;
+    public $stylesheet = '';
+
+    /**
+     * Guarda o nome do ficheiro script caso tenha
+     * @var $stylesheet
+     */
+    protected string $script = '';
 
     /**
      * Guarda uma msg para o user

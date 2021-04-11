@@ -7,6 +7,7 @@ class PessoalController extends MainController{
         parent::__construct();
         $this->stylesheet="pessoal.css";
         $this->model = $this->loadModel('UserModel');
+        $this->script = "pessoal.js";
     }
 
     public function index(){
@@ -24,15 +25,42 @@ class PessoalController extends MainController{
         $noticias = $this->model->getUserNoticiasGostadas($this->userInfo->id);
         $quotas = $this->model->getUserQuotas($this->userInfo->id);
         if ($this->hasPermissions('admin')){
-            //todo
+            // todo
         }
         if ($superAdm){
-            $eventos = $this->model->getAllEventos();
+            $eventos = $this->model->getAllEventos(false);
             $quotas = $this->model->getAllQuotas();
             $noticias = $this->model->getAllNoticias();
+            $socios = $this->model->getAll();
+            $sociosPaginator = (new Paginator($socios, 2, page: $pageNum))->prepare()->use();
+            $socios = $sociosPaginator->itens;
+            $sociosHTML = iterate($socios, function ($el) {
+                $nome = $el->nome;
+                $email = $el->email;
+                $username = $el->username;
+                $permissions = implode( ', ', $el->permissions);
+                $assocNome = $el->associacaoNome;
+                $id = $el->id;
+                return <<<HTML
+                            <div class="grid quota-card">
+                                <div class="info">
+                                    <p>Nome: $nome</p>
+                                    <p>Email: $email</p>
+                                    <p>Username: $username</p>
+                                    <p>Permissões: $permissions</p>
+                                    <p>Associação: $assocNome</p>
+                                </div>
+                                <div class="action">
+                                    <form action="">
+                                        <input type="hidden" name="userId" value="$id">
+                                        <input type="submit" value="Enviar email">
+                                    </form>
+                                </div>
+                            </div>
+                    HTML;
+            });
+            $sociosHTML = implode(' ', $sociosHTML);
         }
-        $nextPageNum = $pageNum+1;
-        $previousPageNum = $pageNum-1;
         $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
         $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
         $quotasPaginator = (new Paginator($quotas, page: $pageNum))->prepare()->use();
@@ -84,6 +112,8 @@ class PessoalController extends MainController{
                 $dComeco = $el->dataComeco;
                 $dFim = $el->dataTermino;
                 $preco = $el->preco;
+                $id = $el->id;
+                $path = HOME_URI . 'quota/pagar/';
                 return <<<HTML
                             <div class="grid quota-card">
                                 <div class="info">
@@ -92,8 +122,8 @@ class PessoalController extends MainController{
                                     <p>Preço: $preco</p>
                                 </div>
                                 <div class="action">
-                                    <form action="">
-                                        <input type="hidden" name="pagarQuota" value="id">
+                                    <form action="$path" method="post">
+                                        <input type="hidden" name="quotaId" value="$id">
                                         <input type="submit" value="Pagar">
                                     </form>
                                 </div>

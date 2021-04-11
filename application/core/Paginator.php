@@ -28,7 +28,7 @@ class Paginator{
         if (isset($this->pages[$this->pageNum])) {
             $this->obj->itens = $this->pages[$this->pageNum];
             $this->obj->hasNextPage = isset($this->pages[$this->pageNum + 1]);
-            $this->obj->hasNextPreviousPage = isset($this->pages[$this->pageNum - 1]);
+            $this->obj->hasPreviousPage = isset($this->pages[$this->pageNum - 1]);
             $this->obj->show = $this->valid;
             $this->obj->pageNum = $this->pageNum;
             return $this;
@@ -38,7 +38,7 @@ class Paginator{
         $this->obj->itens = $this->pages[1] ?? [];
         $this->obj->hasNextPage = isset($this->pages[2]);
         $this->obj->show = $this->valid;
-        $this->obj->hasNextPreviousPage = false;
+        $this->obj->hasPreviousPage = false;
         $this->obj->pageNum = 1;
 
         return $this;

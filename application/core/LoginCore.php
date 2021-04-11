@@ -131,9 +131,7 @@ class LoginCore{
         if(!isset($_COOKIE['loginToken'])) return false;
         $qResult = $db->select(['socioId'])->from('logintokens')->where('token=:token')->limit(1)->runQuery([':token'=>sha1($_COOKIE['loginToken'])]);
         if(!isset($qResult[0])) return false;
-        $userId = $qResult[0]->socioId;
-        if (isset($_COOKIE['loginToken_']))
-            return $userId;
+        return $qResult[0]->socioId;
     }
 
     /**
