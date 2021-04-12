@@ -55,6 +55,9 @@ abstract class MainController extends LoginCore implements Controller{
     public function __construct(){
         parent::__construct();
         $this->msg = Messages::run($_GET);
+        if ($this->loggedIn) {
+            $this->adm = $this->hasPermissions('Admin', $this->userInfo->permissions);
+        }
     }
 
     /**

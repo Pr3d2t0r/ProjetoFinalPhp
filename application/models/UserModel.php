@@ -11,9 +11,11 @@ class UserModel extends MainModel{
         $this->tableName = "socio";
     }
 
-    public function getUserInfo(){
-        if (!isset($this->info->id))
+    public function getUserInfo($id = null){
+        if (!isset($this->info->id) && $id === null)
             return null;
+        if ($id !== null)
+            return $this->db->getUserInfo($id);
         return $this->db->getUserInfo($this->info->id);
     }
 
@@ -101,10 +103,10 @@ class UserModel extends MainModel{
         return $this->db->select()->from('socio')->where('id=:id')->limit(1)->runQuery([':id'=>$this->info->id]);
     }
 
-    public function insert($username, $hashedPassword, $email, $nome, $assocId){
+    public function insert($username, $hashedPassword, $email, $nome, $assocId, $permissions=['Any']){
         $this->db->insert('socio')
                  ->values([':username', ':password', ':nome', ':email', ':permissions', ':associacaoId'], ['username','password','nome','email','permissions','associacaoId'])
-                 ->runQuery([':username'=>$username, ':password'=>$hashedPassword,':permissions'=>serialize(['Any']), ':nome'=>$nome, ':email'=>$email, ':associacaoId'=>$assocId]);
+                 ->runQuery([':username'=>$username, ':password'=>$hashedPassword,':permissions'=>$permissions, ':nome'=>$nome, ':email'=>$email, ':associacaoId'=>$assocId]);
     }
 
     public function updateUsername($username){
@@ -201,5 +203,16 @@ class UserModel extends MainModel{
                 ->set(['status=\'active\''])
                 ->where('id=:id')
                 ->runQuery([':id'=>$id]);
+    }
+
+    public function updatePerms($permissions, $id=null){
+        if (!isset($this->info->id) && $id === null)
+            return false;
+        $this->db->update('socio')
+            ->set(['permissions=:permissions'])
+            ->where('id=:id')
+            ->runQuery([':id'=>($id===null)?$this->info->id:$id, ':permissions'=>$permissions]);
+        return true;
+
     }
 }

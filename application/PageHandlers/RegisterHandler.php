@@ -61,8 +61,23 @@ class RegisterHandler extends PageHandler{
             gotoPage($parametros['get']['path'] . '?error=ei');
             return;
         }
+        if (!isset($_POST['assocId'])){
+            gotoPage('500/');
+            return;
+        }
+        $assocId = $_POST['assocId'];
+        $permissions = ['Any'];
+        if (isset($_POST['Admin']))
+            $permissions[] = 'Admin';
+
+        if (isset($_POST['Gerir-noticias']))
+            $permissions[] = 'Gerir-noticias';
+
+        if (isset($_POST['Gerir-eventos']))
+            $permissions[] = 'Gerir-eventos';
+        $permissions = serialize($permissions);
         $hashedPassword = $this->passwordHasher->encrypt($password);
-        $this->model->insert($username, $hashedPassword, $email, $nome, 1);
+        $this->model->insert($username, $hashedPassword, $email, $nome, $assocId, $permissions);
         if (isset($_POST['nextPage']) && $_POST['nextPage'] != "") {
             $prefix = (str_contains($_POST['nextPage'], '?'))?'&':'?';
             gotoPage($_POST['nextPage'].$prefix.'success=3');

@@ -20,7 +20,7 @@ class PessoalController extends MainController{
         $nextPage = null;
         if (isset($parametros['get']['next']))
             $nextPage = $parametros['get']['next'];
-        $pageNum = $parametros['get']['page'] ?? 3;
+        $pageNum = $parametros['get']['page'] ?? 1;
         $eventos = $this->model->getUserEventos($this->userInfo->id);
         $noticias = $this->model->getUserNoticiasGostadas($this->userInfo->id);
         $quotas = $this->model->getUserQuotas($this->userInfo->id);
@@ -41,6 +41,8 @@ class PessoalController extends MainController{
                 $permissions = implode( ', ', $el->permissions);
                 $assocNome = $el->associacaoNome;
                 $id = $el->id;
+                $editPerms = HOME_URI . "pessoal/perms/$id";
+                // todo $enviarEmail = HOME_URI . "pessoal/email/$id";
                 return <<<HTML
                             <div class="grid quota-card">
                                 <div class="info">
@@ -51,10 +53,13 @@ class PessoalController extends MainController{
                                     <p>Associação: $assocNome</p>
                                 </div>
                                 <div class="action">
-                                    <form action="">
+                                    <form action="" method="post">
                                         <input type="hidden" name="userId" value="$id">
                                         <input type="submit" value="Enviar email">
                                     </form>
+                                    <form action="$editPerms">                                    
+                                        <input type="submit" value="Editar Permições">
+                                    </form>                               
                                 </div>
                             </div>
                     HTML;
@@ -136,6 +141,34 @@ class PessoalController extends MainController{
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/pessoal/pessoal-view.php';
+        include_once APPLICATIONPATH.'/views/includes/footer.php';
+    }
+
+    public function perms(){
+        if (!$this->loggedIn){
+            gotoPage('home/?error=af');
+            return;
+        }
+        $superAdm = $this->hasPermissions('Superadmin', $this->userInfo->permissions);
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        if (!$superAdm){
+            gotoPage('home/?error=af');
+            return;
+        }
+        if (!isset($parametros[0])) {
+            gotoPage('500/');
+            return;
+        }
+        $id = $parametros[0];
+        $userInfo = $this->model->getUserInfo($id);
+        $permissions = $userInfo->permissions;
+        $username = $userInfo->username;
+        include_once APPLICATIONPATH.'/views/includes/header.php';
+        include_once APPLICATIONPATH.'/views/includes/menu.php';
+        include_once APPLICATIONPATH.'/views/pessoal/pessoal-perms-view.php';
         include_once APPLICATIONPATH.'/views/includes/footer.php';
     }
 }

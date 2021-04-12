@@ -31,6 +31,12 @@ class LoginCore{
     public $superAdm;
 
     /**
+     * Admin true|false
+     * @var bool
+     */
+    public $adm;
+
+    /**
      * LoginCore constructor.
      */
     public function __construct(){

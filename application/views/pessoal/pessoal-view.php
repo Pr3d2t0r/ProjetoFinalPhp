@@ -128,7 +128,7 @@
                         <?php if ($eventosPaginator->hasNextPage): ?>
                             <div>
                                 <form action="">
-                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
+                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum + 1; ?>">
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </form>
                             </div>
@@ -140,8 +140,31 @@
                 <article id="socios">
                     <p>Socios</p>
                     <?php echo $sociosHTML ?>
+                    <?php if ($sociosPaginator->show): ?>
+                        <div class="eventos-controls controls grid">
+                            <?php if ($sociosPaginator->hasPreviousPage): ?>
+                                <div>
+                                    <form action="">
+                                        <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum - 1; ?>">
+                                        <i class="fas fa-arrow-circle-left"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
+                            <div>
+                                <span><small>Pagina: <?php echo $sociosPaginator->pageNum; ?></small></span>
+                            </div>
+                            <?php if ($sociosPaginator->hasNextPage): ?>
+                                <div>
+                                    <form action="">
+                                        <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum + 1; ?>">
+                                        <i class="fas fa-arrow-circle-right"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 </article>
-            <?php else: ?>
+            <?php //else: ?>
             <?php endif; ?>
         </div>
     </div>

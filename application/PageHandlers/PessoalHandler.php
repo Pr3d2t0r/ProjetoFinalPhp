@@ -19,7 +19,7 @@ class PessoalHandler extends PageHandler{
             return;
         }
         $options = [
-            'username' => function (){
+            'username' => function ($params){
                 if (!isset($_POST['username']) || empty($_POST['username'])) {
                     gotoPage('pessoal/?error=eu');
                     return;
@@ -41,7 +41,7 @@ class PessoalHandler extends PageHandler{
                 }
                 gotoPage('500/');
             },
-            'password' => function (){
+            'password' => function ($params){
                 if (!isset($_POST['password']) || empty($_POST['password'])) {
                     gotoPage('pessoal/?error=ep');
                     return;
@@ -69,7 +69,7 @@ class PessoalHandler extends PageHandler{
                 }
                 gotoPage('500/');
             },
-            'nome' => function (){
+            'nome' => function ($params){
                 if (!isset($_POST['nome']) || empty($_POST['nome'])){
                     gotoPage('pessoal/?error=enf');
                     return;
@@ -81,7 +81,7 @@ class PessoalHandler extends PageHandler{
                 }
                 gotoPage('500/');
             },
-            'email' => function (){
+            'email' => function ($params){
                 if (!isset($_POST['email']) || empty($_POST['email'])){
                     gotoPage('pessoal/?error=eef');
                     return;
@@ -96,10 +96,28 @@ class PessoalHandler extends PageHandler{
                     return;
                 }
                 gotoPage('500/');
+            },
+            'perms' => function ($params){
+                $permissions = ['Any'];
+                if (isset($_POST['Admin']))
+                    $permissions[] = 'Admin';
+
+                if (isset($_POST['Gerir-noticias']))
+                    $permissions[] = 'Gerir-noticias';
+
+                if (isset($_POST['Gerir-eventos']))
+                    $permissions[] = 'Gerir-eventos';
+
+                $permissions = serialize($permissions);
+                $id = $params[1];
+                if($this->model->updatePerms($permissions, $id)){
+                    gotoPage('pessoal/?success=5');
+                    return;
+                }
             }
         ];
         if (isset($options[$parametros[0]])) {
-            $options[$parametros[0]]();
+            $options[$parametros[0]]($parametros);
             return;
         }
         gotoPage('404/');

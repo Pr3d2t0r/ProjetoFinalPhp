@@ -122,6 +122,7 @@ class AssociacaoController extends MainController{
                         HTML;
             });
             $assocs = implode(" ", $assocs);
+
         }
         $adm = $this->hasPermissions($this->permission_required, $this->userInfo->permissions);
         include_once APPLICATIONPATH.'/views/includes/header.php';

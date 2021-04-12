@@ -29,7 +29,8 @@
     <?php if ($adm): ?>
         <div class="grid">
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
-            <div><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
+            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
+            <div><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
         </div>
     <?php endif; ?>
     <div class="title">
