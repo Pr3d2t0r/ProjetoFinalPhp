@@ -72,6 +72,8 @@ class AssociacaoController extends MainController{
             $socios = implode(" ", $socios);
         }
         $adm = $this->hasPermissions($this->permission_required, $this->userInfo->permissions);
+        $gerirNoticias = $this->hasPermissions('Gerir-noticias', $this->userInfo->permissions);
+        $gerirEventos = $this->hasPermissions('Gerir-eventos', $this->userInfo->permissions);
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/associacao/associacao-view.php';
@@ -128,6 +130,26 @@ class AssociacaoController extends MainController{
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/associacao/associacao-all-view.php';
+        include_once APPLICATIONPATH.'/views/includes/footer.php';
+    }
+
+    public function criar(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?'?next='.$nextPage:""));
+            return;
+        }
+        if (!$this->hasPermissions('Superadmin', $this->userInfo->permissions)){
+            gotoPage('?error=af');
+            return;
+        }
+        include_once APPLICATIONPATH.'/views/includes/header.php';
+        include_once APPLICATIONPATH.'/views/includes/menu.php';
+        include_once APPLICATIONPATH.'/views/associacao/create-associacao-view.php';
         include_once APPLICATIONPATH.'/views/includes/footer.php';
     }
 }

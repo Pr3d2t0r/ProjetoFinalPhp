@@ -4,8 +4,10 @@
         <div>
             <p>Editar Evento</p>
             <form action="" method="post">
-                <input type="text" name="titulo" placeholder="Titulo"><br>
-                <textarea placeholder="Conteudo" name="conteudo"></textarea><br>
+                <input type="text" name="titulo" placeholder="Titulo" value="<?php echo $titulo ?? ""; ?>"><br>
+                <input type="date" name="data" placeholder="Data" value="<?php echo $data ?? ""; ?>"><br>
+                <textarea placeholder="Conteudo" name="conteudo"><?php echo $conteudo ?? ""; ?></textarea><br>
+                <input type="hidden" name="assocId" value="<?php echo $assocId ?? "0"; ?>">
                 <?php if ($nextPage != null): ?>
                     <input type="hidden" name="nextPage" value="<?php echo $nextPage; ?>">
                 <?php endif; ?>

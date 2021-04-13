@@ -132,4 +132,47 @@ class NoticiaController extends MainController{
         gotoPage('?success=6');
     }
 
+    public function all(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        if (!isset($parametros[0])){
+            gotoPage('500/');
+            return;
+        }
+        if (!$this->model->userIsOnAssociacao($parametros[0]) && !$this->superAdm){
+            gotoPage('?error=af');
+            return;
+        }
+        $noticias = $this->model->getAllByAssociacao($parametros[0]);
+        $noticiasHTML = iterate($noticias, function ($el){
+            $titulo = $el->titulo;
+            $conteudo = $el->conteudo;
+            $img = $el->caminhoImg;
+            $id = $el->id;
+            $act = "";
+            if ($this->hasPermissions('Gerir-noticias', $this->userInfo->permissions)){
+                $act = "<a href=\"" . HOME_URI . "noticia/editar/" . $id ."\">Editar</a><a href=\"" . HOME_URI . "noticia/apagar/" . $id ."\">Apagar</a>";
+            }
+
+            return <<<HTML
+                        <hr>
+                        <div>
+                            <h1>$titulo</h1>
+                            <p>$conteudo</p>
+                            <img src="$img" alt="">
+                        </div>
+                        $act
+                        <hr>
+                    HTML;
+        });
+        $noticiasHTML = implode(' ', $noticiasHTML);
+
+        include_once APPLICATIONPATH.'/views/includes/header.php';
+        include_once APPLICATIONPATH.'/views/includes/menu.php';
+        include_once APPLICATIONPATH.'/views/noticia/noticia-all-view.php';
+        include_once APPLICATIONPATH.'/views/includes/footer.php';
+    }
 }

@@ -26,13 +26,21 @@
             </div>
         </div>
     </div>
-    <?php if ($adm): ?>
-        <div class="grid">
+    <div class="grid">
+        <?php if ($adm): ?>
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
-            <div><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
-        </div>
-    <?php endif; ?>
+            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
+        <?php endif; ?>
+        <?php if ($gerirEventos): ?>
+            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'evento/criar'; ?>">Add Evento</a></div>
+        <?php endif; ?>
+        <?php if ($gerirNoticias): ?>
+            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'noticia/criar'; ?>">Add noticia</a></div>
+        <?php endif; ?>
+        <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'noticia/all/' . $assoc->id; ?>">Ver noticias</a></div>
+        <div><a href="<?php echo HOME_URI ?>">Ver Eventos</a></div>
+    </div>
     <div class="title">
         <h1>Socios</h1>
     </div>

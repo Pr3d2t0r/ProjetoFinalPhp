@@ -46,11 +46,6 @@ class NoticiaHandler extends PageHandler{
             $path = $dir.$newName;
             $absPath = $absDir.$newName;
         }while(file_exists($path));
-        if(move_uploaded_file($imagem['tmp_name'], $absPath) === false){
-            echo $absPath;
-            gotoPage('500');
-            return;
-        }
         if (!isset($_POST['associacaoId']) || empty($_POST['associacaoId']) || $_POST['associacaoId'] == "None"){
             gotoPage($_GET['path'] . '?error=aie');
             return;
@@ -59,6 +54,10 @@ class NoticiaHandler extends PageHandler{
         $userAssocId = (new Db)->getUserInfo($userId)->associacaoId;
         if ($assocId != $userAssocId && !LoginCore::isSuperAdmin($userId)){
             gotoPage("home/?error=afen");
+            return;
+        }
+        if(move_uploaded_file($imagem['tmp_name'], $absPath) === false){
+            gotoPage('500');
             return;
         }
         $this->model->insert($titulo, $conteudo, $path, $assocId);

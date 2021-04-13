@@ -37,6 +37,11 @@ class EventoModel extends MainModel{
         return true;
     }
 
+    public function userIsOnAssociacao($id){
+        $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=:associacaoId")->runQuery([':id'=>$this->info->id, ':associacaoId'=>$id]);
+        return isset($result[0]);
+    }
+
     public function isInscrito($userId, $eventoId){
         $result = $this->db->select()
             ->from('eventoinscricoes')
@@ -58,5 +63,27 @@ class EventoModel extends MainModel{
             ->where('eventos.id=:eventoId and socio.id=:socioId')
             ->runQuery([':eventoId'=>$eventoId, ':socioId'=>$userId]);
         return isset($result[0]);
+    }
+
+    public function getAllAssocs(){
+        return $this->db->select()->from('associacao')->runQuery();
+    }
+
+    public function insert($titulo, $conteudo, $assocId, $data){
+        $this->db->insert('eventos')
+            ->values([':titulo', ':conteudo', ':associacaoId', ':data'], ['titulo', 'conteudo', 'associacaoId', 'data'])
+            ->runQuery([':titulo'=>$titulo, ':conteudo'=>$conteudo, ':associacaoId'=>$assocId, ':data'=>$data]);
+        return $this->db->select(['id'])
+            ->from('eventos')
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->runQuery()[0]->id;
+    }
+
+    public function update($id, $titulo, $conteudo, $data){
+        $this->db->update('eventos')
+            ->set(['titulo=:titulo', 'conteudo=:conteudo', 'data=:data'])
+            ->where('id=:id')
+            ->runQuery([':id'=>$id, ':titulo'=>$titulo, ':conteudo'=>$conteudo, ':data'=>$data]);
     }
 }

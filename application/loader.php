@@ -28,6 +28,7 @@ require_once APPLICATIONPATH . '/pageHandlers/NoticiaHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/PessoalHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/QuotaHandler.php';
 require_once APPLICATIONPATH . '/pageHandlers/EventoHandler.php';
+require_once APPLICATIONPATH . '/pageHandlers/AssociacaoHandler.php';
 /*end*/
 
 $app = new Application();
@@ -40,6 +41,7 @@ $app->router->post('login/', new LoginHandler);
 $app->router->get('register/', new RegisterController);
 $app->router->post('register/', new RegisterHandler);
 $app->router->get('associacao/', new AssociacaoController);
+$app->router->post('associacao/', new AssociacaoHandler);
 $app->router->get('evento/', new EventoController);
 $app->router->post('evento/', new EventoHandler);
 $app->router->get('noticia/', new NoticiaController);

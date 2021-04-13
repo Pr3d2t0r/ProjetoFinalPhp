@@ -50,4 +50,15 @@ class NoticiaModel extends MainModel{
         $result = $this->db->select(['id'])->from($this->tableName)->where("associacaoId=:associacaoId and id=:id")->runQuery([':associacaoId'=>$this->info->associacaoId, ':id'=>$id]);
         return isset($result[0]);
     }
+
+    public function getAllByAssociacao($associacaoId){
+        return $this->db->select()
+            ->from('noticias')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$associacaoId]);
+    }
+    public function userIsOnAssociacao($id){
+        $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=:associacaoId")->runQuery([':id'=>$this->info->id, ':associacaoId'=>$id]);
+        return isset($result[0]);
+    }
 }

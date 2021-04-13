@@ -9,7 +9,7 @@
                 <input type="text" name="email" placeholder="Email"><br>
                 <input type="password" name="password" placeholder="Password"><br>
                 <input type="password" name="rPassword" placeholder="Password repeat"><br>
-                <input type="hidden" name="AssocId" value="<?php echo $assocId;?>">
+                <input type="hidden" name="assocId" value="<?php echo $assocId;?>">
                 <label for="">Permissões:</label><br />
                 <?php if ($superAdm): ?>
                     <label for="">Admin<input type="checkbox" name="Admin" value="1"></label>

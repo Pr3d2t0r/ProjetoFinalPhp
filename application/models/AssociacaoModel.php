@@ -24,4 +24,21 @@ class AssociacaoModel extends MainModel{
         $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=:associacaoId")->runQuery([':id'=>$this->info->id, ':associacaoId'=>$id]);
         return isset($result[0]);
     }
+
+    public function insert($nome, $morada, $telefone, $nContribuinte){
+        $this->db->insert('associacao')
+            ->values([':nome', ':morada', ':telefone', ':nContribuinte'], ['nome', 'morada', 'telefone', 'nContribuinte'])
+            ->runQuery([':nome'=>$nome, ':morada'=>$morada, ':telefone'=>$telefone, ':nContribuinte'=>$nContribuinte]);
+        return $this->db->select(['id'])
+            ->from('associacao')
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->runQuery()[0]->id;
+    }
+
+    public function insertImage($image, $assocId){
+        $this->db->insert('imagensassociacao')
+            ->values([':caminho', ':associacaoId'], ['caminho', 'associacaoId'])
+            ->runQuery([':caminho'=>$image, ':associacaoId'=>$assocId]);
+    }
 }

@@ -11,6 +11,10 @@ create table if not exists socio(
     permissions longtext not null
 );
 
+# super admin
+# user admin password admin
+INSERT INTO bleet.socio (id, nome, email, username, password, associacaoId, permissions) VALUES (1, 'admin', 'admin@gmail.com', 'admin', '$2y$10$ADvvtOMd5hmYGrj0slrcWuCFWh8x2Xnh2pnYu1N.jCGrublDL7GOK', 0, 'a:2:{i:0;s:3:"Any";i:1;s:10:"Superadmin";}');
+
 create table if not exists loginTokens(
     id int(11) primary key auto_increment,
     socioId int(11) not null,

@@ -17,15 +17,17 @@ class HomeController extends MainController{
         $eventos = $this->model->getAllAssociacao($this->userInfo->associacaoId);
         if ($this->hasPermissions('Superadmin', $this->userInfo->permissions))
             $eventos = $this->model->getAll();
-        $eventosHTML = iterate($eventos, function ($el){
-           $titulo = $el->titulo;
-           $conteudo = $el->conteudo;
-           $data = $el->data;
-           $associacao = (isset($el->associacaoNome)) ? "<p>Associação: $el->associacaoNome</p>" : '';
-           $id = $el->id;
-           $vermais = HOME_URI . 'evento/'.$id;
-           $participar = HOME_URI . 'evento/participar';
-           return <<<HTML
+        $eventosHTML = "<p>Não tem eventos para ver</p>";
+        if (count($eventos) > 0) {
+            $eventosHTML = iterate($eventos, function ($el) {
+                $titulo = $el->titulo;
+                $conteudo = $el->conteudo;
+                $data = $el->data;
+                $associacao = (isset($el->associacaoNome)) ? "<p>Associação: $el->associacaoNome</p>" : '';
+                $id = $el->id;
+                $vermais = HOME_URI . 'evento/' . $id;
+                $participar = HOME_URI . 'evento/participar';
+                return <<<HTML
                         <article>
                             <div class="body">                      
                                 <div class="col">
@@ -44,8 +46,9 @@ class HomeController extends MainController{
                             </div>
                         </article>
                     HTML;
-        });
-        $eventosHTML = implode(' ', $eventosHTML);
+            });
+            $eventosHTML = implode(' ', $eventosHTML);
+        }
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/home/home-view.php';

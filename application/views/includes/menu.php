@@ -14,6 +14,7 @@
                 <li><a href="<?php echo HOME_URI.'associacao/'.$this->userInfo->associacaoId;?>"><?php echo $this->userInfo->associacaoNome; ?></a></li>
             <?php else:?>
                 <li><a href="<?php echo HOME_URI;?>associacao/all">Associações</a></li>
+                <li><a href="<?php echo HOME_URI;?>associacao/criar">Criar associação</a></li>
             <?php endif;?>
             <li><a href="<?php echo HOME_URI;?>pessoal/">Pessoal</a></li>
             <li>Welcome <?php echo $this->userInfo->username; ?></li>

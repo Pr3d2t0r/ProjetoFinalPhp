@@ -160,7 +160,7 @@ class UserModel extends MainModel{
     }
 
     public function getAllQuotas($active = true){
-        $query = $this->db->select(['quotas.*', 'socio.nome'])
+        $query = $this->db->select(['quotas.*', 'socio.username as nome'])
             ->from('quotas inner join socio')
             ->on('quotas.socioId=socio.id');
         if ($active)

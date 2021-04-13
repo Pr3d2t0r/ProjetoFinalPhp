@@ -5,7 +5,15 @@
             <p>Novo Evento</p>
             <form action="" method="post">
                 <input type="text" name="titulo" placeholder="Titulo"><br>
+                <input type="date" name="data"><br>
                 <textarea placeholder="Conteudo" name="conteudo"></textarea><br>
+                <?php if (!$this->superAdm): ?>
+                    <input type="hidden" name="assocId" value="<?php echo $assocId; ?>">
+                <?php else: ?>
+                    <select name="assocId">
+                        <?php echo $options; ?>
+                    </select>
+                <?php endif; ?>
                 <?php if ($nextPage != null): ?>
                     <input type="hidden" name="nextPage" value="<?php echo $nextPage; ?>">
                 <?php endif; ?>

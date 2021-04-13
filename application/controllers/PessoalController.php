@@ -118,13 +118,19 @@ class PessoalController extends MainController{
                 $dFim = $el->dataTermino;
                 $preco = $el->preco;
                 $id = $el->id;
+                $nome = $el->nome;
                 $path = HOME_URI . 'quota/pagar/';
+                $dono = "";
+                if($this->superAdm){
+                    $dono = "<p>Username: $nome</p>";
+                }
                 return <<<HTML
                             <div class="grid quota-card">
                                 <div class="info">
                                     <p>Data de começo: $dComeco</p>
                                     <p>Data de termino: $dFim</p>
                                     <p>Preço: $preco</p>
+                                    $dono
                                 </div>
                                 <div class="action">
                                     <form action="$path" method="post">
