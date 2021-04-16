@@ -58,7 +58,7 @@
                     <div class="eventos-controls controls grid">
                         <?php if ($noticiasPaginator->hasPreviousPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#noticias">
                                     <input type="hidden" name="page" value="<?php echo $noticiasPaginator->pageNum - 1; ?>">
                                     <i class="fas fa-arrow-circle-left"></i>
                                 </form>
@@ -69,7 +69,7 @@
                         </div>
                         <?php if ($noticiasPaginator->hasNextPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#noticias">
                                     <input type="hidden" name="page" value="<?php echo $noticiasPaginator->pageNum + 1; ?>">
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </form>
@@ -85,7 +85,7 @@
                     <div class="controls grid">
                         <?php if ($quotasPaginator->hasPreviousPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#quotas">
                                     <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum - 1; ?>">
                                     <i class="fas fa-arrow-circle-left"></i>
                                 </form>
@@ -96,7 +96,7 @@
                         </div>
                         <?php if ($quotasPaginator->hasNextPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#quotas">
                                     <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum + 1; ?>">
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </form>
@@ -116,7 +116,7 @@
                     <div class="eventos-controls controls grid">
                         <?php if ($eventosPaginator->hasPreviousPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#eventos">
                                     <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
                                     <i class="fas fa-arrow-circle-left"></i>
                                 </form>
@@ -127,7 +127,7 @@
                         </div>
                         <?php if ($eventosPaginator->hasNextPage): ?>
                             <div>
-                                <form action="">
+                                <form action="#eventos">
                                     <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum + 1; ?>">
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </form>
@@ -144,7 +144,7 @@
                         <div class="eventos-controls controls grid">
                             <?php if ($sociosPaginator->hasPreviousPage): ?>
                                 <div>
-                                    <form action="">
+                                    <form action="#socios">
                                         <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum - 1; ?>">
                                         <i class="fas fa-arrow-circle-left"></i>
                                     </form>
@@ -155,7 +155,7 @@
                             </div>
                             <?php if ($sociosPaginator->hasNextPage): ?>
                                 <div>
-                                    <form action="">
+                                    <form action="#socios">
                                         <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum + 1; ?>">
                                         <i class="fas fa-arrow-circle-right"></i>
                                     </form>
@@ -169,7 +169,3 @@
         </div>
     </div>
 </div>
-
-<?php
-    //todo acabar de implementar o paginator adicionar as forms nos btns e verificar por erros etc
-?>
