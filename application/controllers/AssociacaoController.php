@@ -152,4 +152,40 @@ class AssociacaoController extends MainController{
         include_once APPLICATIONPATH.'/views/associacao/create-associacao-view.php';
         include_once APPLICATIONPATH.'/views/includes/footer.php';
     }
+
+    public function editar(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        if (!isset($parametros[0])){
+            gotoPage('404');
+            return;
+        }
+        $id = $parametros[0];
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?'?next='.$nextPage:""));
+            return;
+        }
+        if (!$this->hasPermissions('Superadmin', $this->userInfo->permissions)){
+            gotoPage('associacao/'.$id.'?error=af');
+            return;
+        }
+        $assoc = $this->model->getAssociacaoInfo($id);
+        if ($assoc === false){
+            gotoPage('404/');
+            return;
+        }
+        $nome = $assoc->nome;
+        $morada = $assoc->morada;
+        $telefone = $assoc->telefone;
+        $nContribuinte = $assoc->nContribuinte;
+
+        include_once APPLICATIONPATH.'/views/includes/header.php';
+        include_once APPLICATIONPATH.'/views/includes/menu.php';
+        include_once APPLICATIONPATH.'/views/associacao/edit-associacao-view.php';
+        include_once APPLICATIONPATH.'/views/includes/footer.php';
+
+    }
 }

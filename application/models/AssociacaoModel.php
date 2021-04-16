@@ -41,4 +41,11 @@ class AssociacaoModel extends MainModel{
             ->values([':caminho', ':associacaoId'], ['caminho', 'associacaoId'])
             ->runQuery([':caminho'=>$image, ':associacaoId'=>$assocId]);
     }
+
+    public function update($id, $nome, $morada, $telefone, $nContribuinte){
+        $this->db->update('associacao')
+            ->set(['nome=:nome', 'morada=:morada', 'telefone=:telefone', 'nContribuinte=:nContribuinte'])
+            ->where('id=:id')
+            ->runQuery([':id'=>$id, ':nome'=>$nome, ':morada'=>$morada, ':telefone'=>$telefone, ':nContribuinte'=>$nContribuinte]);
+    }
 }
