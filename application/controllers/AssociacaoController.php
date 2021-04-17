@@ -188,4 +188,23 @@ class AssociacaoController extends MainController{
         include_once APPLICATIONPATH.'/views/includes/footer.php';
 
     }
+
+    public function apagar(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        $id = $parametros[0];
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            return;
+        }
+        if (!$this->hasPermissions('Superadmin', $this->userInfo->permissions)){
+            gotoPage("home/?error=af");
+            return;
+        }
+        $this->model->delete($id);
+        gotoPage('?success=6');
+    }
 }

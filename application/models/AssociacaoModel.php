@@ -48,4 +48,29 @@ class AssociacaoModel extends MainModel{
             ->where('id=:id')
             ->runQuery([':id'=>$id, ':nome'=>$nome, ':morada'=>$morada, ':telefone'=>$telefone, ':nContribuinte'=>$nContribuinte]);
     }
+
+    public function delete($id){
+        $this->db->delete('associacao')
+            ->where('id=:id')
+            ->runQuery([':id'=>$id]);
+        $this->deleteImgs($id);
+    }
+
+    public function deleteImgs($assocId){
+        $caminhos = $this->db->select(['caminho'])
+            ->from('imagensassociacao')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+        $this->db->delete('imagensassociacao')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+        iterate($caminhos, function ($el){
+            $path = $el->caminho;
+            $img = explode('/', $path);
+            $img = end($img);
+            $path = UP_ABSPATH.'/associacoes/'.$img;
+            if (file_exists($path))
+                unlink($path);
+        });
+    }
 }
