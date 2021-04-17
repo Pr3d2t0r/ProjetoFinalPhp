@@ -118,4 +118,30 @@ class EventoHandler extends PageHandler{
         $this->model->inscreve($userId, $eventoId);
         gotoPage('evento/'.$eventoId.'/?success=8');
     }
+
+    public function clonar(){
+        // var_dump($_POST);
+        // array(2) { ["eventoId"]=> string(1) "2" ["associacaoId"]=> string(1) "2" }
+
+        if (!isset($_POST['eventoId']) || !isset($_POST['associacaoId'])){
+            gotoPage('pessoal/');
+            return;
+        }
+        $eventoId = $_POST['eventoId'];
+        $associacaoId = $_POST['associacaoId'];
+        if ($associacaoId == "None"){
+            gotoPage('pessoal/?error=sua');
+            return;
+        }
+        if ($this->model->eventoIsOnAssociacao($eventoId, $associacaoId)){
+            gotoPage('evento/'.$eventoId);
+            return;
+        }
+        $id = $this->model->clone($eventoId, $associacaoId);
+        if ($id == false){
+            gotoPage('pessoal/?error=ene');
+            return;
+        }
+        gotoPage('evento/'.$id.'/?success=9');
+    }
 }

@@ -1,3 +1,13 @@
+<div id="clonar-form" title="Clonar Evento">
+    <form id="clonar" method="post" enctype="multipart/form-data" action="<?php echo HOME_URI ;?>evento/clonar">
+        <input type="hidden" name="eventoId" id="eventoId">
+        <label for="assocs">Associação:</label><br>
+        <select name="associacaoId" id="assocs">
+            <option value="None">Selecione uma associação</option>
+            <?php echo $options ?? '' ?>
+        </select>
+    </form>
+</div>
 <div class="main">
     <div class="grid">
         <div class="col">

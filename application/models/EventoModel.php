@@ -86,4 +86,19 @@ class EventoModel extends MainModel{
             ->where('id=:id')
             ->runQuery([':id'=>$id, ':titulo'=>$titulo, ':conteudo'=>$conteudo, ':data'=>$data]);
     }
+
+    public function eventoIsOnAssociacao($eventoId, $associacaoId){
+        $result = $this->db->select(['associacaoId'])
+            ->from('eventos')
+            ->where('associacaoId=:associacaoId and id=:id')
+            ->runQuery([':associacaoId'=>$associacaoId, ':id'=>$eventoId]);
+        return isset($result[0]);
+    }
+
+    public function clone($eventoId, $associacaoId){
+        $evento = $this->getEvento($eventoId);
+        if ($evento == false)
+            return false;
+        return $this->insert($evento->titulo, $evento->conteudo, $associacaoId, $evento->data);
+    }
 }

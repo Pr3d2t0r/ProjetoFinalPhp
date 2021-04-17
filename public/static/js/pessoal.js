@@ -6,6 +6,7 @@ function pessoal() {
     for (var x = 0; x < controls.length; x++)
         controls[x].addEventListener("click", parentSubmit);
     urlPage();
+    cDialog();
 }
 
 options = {
@@ -43,4 +44,30 @@ function mainMenu(id){
         if (options[i] !== id)
             document.getElementById(options[i]).style.display = "none";
     }
+}
+
+function cDialog(){
+    dialog = $( "#clonar-form" ).dialog({
+        autoOpen: false,
+        height: 200,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Clonar": function () {
+                $('#clonar').submit()
+            },
+            "Cancel": function() {
+                dialog.dialog( "close" );
+            }
+        },
+        closeOnEscape: true,
+        draggable: false,
+        hide: { effect: "fade", duration: 400 },
+        show: { effect: "fade", duration: 800 }
+    });
+    $( ".clonar-btn" ).button().on( "click", function() {
+        dialog.dialog( "open" );
+        var id = $(this).parent().parent().attr('id');
+        $("#eventoId").val(id);
+    });
 }

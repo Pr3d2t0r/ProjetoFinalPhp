@@ -215,4 +215,10 @@ class UserModel extends MainModel{
         return true;
 
     }
+
+    public function getAllAssociacoes(){
+        return $this->db->select()
+            ->from('associacao')
+            ->runQuery();
+    }
 }

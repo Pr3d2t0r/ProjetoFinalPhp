@@ -65,6 +65,11 @@ class PessoalController extends MainController{
                     HTML;
             });
             $sociosHTML = implode(' ', $sociosHTML);
+            $assocs = $this->model->getAllAssociacoes();
+            $options = iterate($assocs, function ($el){
+                return "<option value='$el->id'>$el->nome</option>";
+            });
+            $options = implode(' ', $options);
         }
         $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
         $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
@@ -76,14 +81,25 @@ class PessoalController extends MainController{
         $eventosHTML = "<p>Este user ainda não participou em nenhum evento!</p>";
         if (count($eventos)>0){
             $eventosHTML = iterate($eventos, function ($el){
+                $id = $el->id;
                 $titulo = $el->titulo;
                 $conteudo = $el->conteudo;
                 $data = $el->data;
+                $clonarBtn = '';
+                if ($this->superAdm)
+                    $clonarBtn = "<button class='clonar-btn'>Clonar</button>";
                 return <<<HTML
                             <div class="evento-card">
-                                <p>$titulo</p>
-                                <p>$conteudo</p>
-                                <p>$data</p>
+                                <div class="grid" id="$id">
+                                    <div>
+                                        <p>$titulo</p>
+                                        <p>$conteudo</p>
+                                        <p>$data</p>
+                                    </div>
+                                    <div>
+                                        $clonarBtn
+                                    </div>
+                                </div>
                             </div>
                     HTML;
             });
