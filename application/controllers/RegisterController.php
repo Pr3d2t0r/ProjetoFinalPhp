@@ -25,12 +25,13 @@ class RegisterController extends MainController{
      * Pagina index
      */
     public function index(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $pagina = $parametros['get']['path'];
         if (!$this->loggedIn){
-            gotoPage('home/');
+            gotoPage("login/?error=af&next=$pagina");
             return;
         }
         $superAdm = $this->hasPermissions('Superadmin', $this->userInfo->permissions);
-        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
         $nextPage = null;
         if (isset($parametros['get']['next']))
         $nextPage = $parametros['get']['next'];

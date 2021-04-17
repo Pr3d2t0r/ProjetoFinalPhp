@@ -15,7 +15,7 @@ class QuotaHandler extends PageHandler{
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
         $userId = LoginCore::getUserId();
         if ($userId == false){
-            gotoPage('?error=af');
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
             return;
         }
 
@@ -25,8 +25,7 @@ class QuotaHandler extends PageHandler{
         }
         $id = $_POST['quotaId'];
         if (!$this->model->isAcociatedToQuota($id) && !LoginCore::isSuperAdmin($userId)){
-            //gotoPage('404/');
-            echo "404";
+            gotoPage('404/');
             return;
         }
         $this->model->updateQuotaStatus($id, inactive: true);

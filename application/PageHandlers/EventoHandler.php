@@ -8,7 +8,7 @@ class EventoHandler extends PageHandler{
     }
 
     public function index(){
-        // TODO: Implement index() method.
+        gotoPage($_GET['path']);
     }
 
     public function criar(){

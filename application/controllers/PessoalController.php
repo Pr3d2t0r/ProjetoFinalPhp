@@ -11,8 +11,10 @@ class PessoalController extends MainController{
     }
 
     public function index(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $pagina = $parametros['get']['path'];
         if (!$this->loggedIn){
-            gotoPage('home/?error=af');
+            gotoPage("login/?error=af&next=$pagina");
             return;
         }
         $superAdm = $this->hasPermissions('Superadmin', $this->userInfo->permissions);

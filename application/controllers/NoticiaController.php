@@ -142,6 +142,10 @@ class NoticiaController extends MainController{
             gotoPage('500/');
             return;
         }
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            return;
+        }
         if (!$this->model->userIsOnAssociacao($parametros[0]) && !$this->superAdm){
             gotoPage('?error=af');
             return;

@@ -26,7 +26,7 @@ class LoginController extends MainController{
      */
     public function index(){
         if ($this->loggedIn){
-            gotoPage('home/');
+            gotoPage('pessoal/');
             return;
         }
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];

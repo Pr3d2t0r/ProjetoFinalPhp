@@ -18,6 +18,10 @@ class PessoalHandler extends PageHandler{
             gotoPage('404/');
             return;
         }
+        if (LoginCore::getUserId() === false){
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
+            return;
+        }
         $options = [
             'username' => function ($params){
                 if (!isset($_POST['username']) || empty($_POST['username'])) {

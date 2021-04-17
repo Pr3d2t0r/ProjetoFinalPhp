@@ -13,6 +13,10 @@ class RegisterHandler extends PageHandler{
     public function index(){
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
         var_dump($parametros);
+        if (LoginCore::getUserId() === false){
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
+            return;
+        }
         if (!isset($_POST['username']) || empty($_POST['username'])) {
             gotoPage($parametros['get']['path'] . '?error=eu');
             return;

@@ -13,7 +13,7 @@ class NoticiaHandler extends PageHandler{
     public function criar(){
         $userId = LoginCore::getUserId();
         if ($userId == false){
-            gotoPage('?error=af');
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
             return;
         }
         if (!isset($_POST['titulo']) || empty($_POST['titulo'])) {

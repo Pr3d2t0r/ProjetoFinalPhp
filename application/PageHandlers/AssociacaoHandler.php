@@ -15,7 +15,11 @@ class AssociacaoHandler extends PageHandler{
 
     public function criar(){
         $userId = LoginCore::getUserId();
-        if ($userId == false || !LoginCore::isSuperAdmin($userId)){
+        if ($userId == false){
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
+            return;
+        }
+        if (!LoginCore::isSuperAdmin($userId)){
             gotoPage('?error=af');
             return;
         }
@@ -89,7 +93,11 @@ class AssociacaoHandler extends PageHandler{
         }
         $id = $parametros[0];
         $userId = LoginCore::getUserId();
-        if ($userId == false || !LoginCore::isSuperAdmin($userId)){
+        if ($userId == false){
+            gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
+            return;
+        }
+        if (!LoginCore::isSuperAdmin($userId)){
             gotoPage('?error=af');
             return;
         }
@@ -151,6 +159,6 @@ class AssociacaoHandler extends PageHandler{
         iterate($caminhos, function ($path) use ($id) {
             $this->model->insertImage($path, $id);
         });
-        gotoPage('associacao/' . $id) . '?success=5';
+        gotoPage('associacao/' . $id . '/?success=5');
     }
 }
