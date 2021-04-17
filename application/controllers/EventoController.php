@@ -16,8 +16,9 @@ class EventoController extends MainController{
      */
     public function index(){
         $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $pagina = $parametros['get']['path'];
         if (!$this->loggedIn){
-            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            gotoPage("login/?error=af&next=$pagina");
             return;
         }
         if (!isset($parametros[0])){
@@ -25,6 +26,14 @@ class EventoController extends MainController{
             return;
         }
         $id = $parametros[0];
+        if (!$this->model->exists($id)){
+            gotoPage('404/');
+            return;
+        }
+        if (!$this->model->eventoIsOnAssociacao($id, $this->userInfo->associacaoId) && !LoginCore::isSuperAdmin($this->userInfo->id)){
+            gotoPage('?error=af');
+            return;
+        }
         $evento = $this->model->getEvento($id);
         $titulo = $evento->titulo;
         $conteudo = $evento->conteudo;
