@@ -8,13 +8,23 @@ class EventoModel extends MainModel{
     }
 
     public function getEvento($eventoId){
-        $result = $this->db->select()
-            ->from($this->tableName)
-            ->where('id=:id')
+        $result = $this->db->select([$this->tableName.'.*', 'associacao.nome as associacaoNome'])
+            ->from($this->tableName.' inner join associacao')
+            ->on($this->tableName.'.associacaoId=associacao.id')
+            ->where($this->tableName.'.id=:id')
             ->runQuery([':id'=>$eventoId]);
         if (isset($result[0]))
             return $result[0];
         return false;
+    }
+
+    public function delete($id){
+        $this->db->delete($this->tableName)
+            ->where('id=:id')
+            ->runQuery([':id'=>$id]);
+        $this->db->delete('eventoinscricoes')
+            ->where('eventoId=:eventoId')
+            ->runQuery([':eventoId'=>$id]);
     }
 
     public function getAll(){

@@ -59,7 +59,7 @@ function reverseString($str){
  * @param $page
  * @return null
  */
-function gotoPage($page){
+function gotoPage($page=''){
     header('Location: ' . HOME_URI.$page);
 }
 

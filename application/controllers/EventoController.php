@@ -39,6 +39,7 @@ class EventoController extends MainController{
         $conteudo = $evento->conteudo;
         $data = explode(' ', $evento->data)[0];
         $assocId = $evento->associacaoId;
+        $assocNome = $evento->associacaoNome;
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/evento/evento-view.php';
@@ -110,5 +111,32 @@ class EventoController extends MainController{
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/evento/editar-evento-view.php';
         include_once APPLICATIONPATH.'/views/includes/footer.php';
+    }
+
+    public function apagar(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            return;
+        }
+        if (!isset($parametros[0])){
+            gotoPage('500/');
+            return;
+        }
+        $id = $parametros[0];
+        if (!$this->model->exists($id)){
+            gotoPage();
+            return;
+        }
+        if (!$this->model->eventoIsOnAssociacao($id, $this->userInfo->associacaoId) && !LoginCore::isSuperAdmin($this->userInfo->id)){
+            gotoPage('?error=af');
+            return;
+        }
+        $this->model->delete($id);
+        gotoPage('?success=6');
     }
 }
