@@ -27,9 +27,11 @@
         </div>
     </div>
     <div class="grid">
-        <?php if ($adm): ?>
+        <?php if ($this->superAdm):?>
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
+        <?php endif; ?>
+        <?php if ($adm): ?>
             <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
         <?php endif; ?>
         <?php if ($gerirEventos): ?>
