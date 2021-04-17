@@ -54,6 +54,7 @@ class AssociacaoModel extends MainModel{
             ->where('id=:id')
             ->runQuery([':id'=>$id]);
         $this->deleteImgs($id);
+        $this->deleteAssocSocios($id);
     }
 
     public function deleteImgs($assocId){
@@ -72,5 +73,11 @@ class AssociacaoModel extends MainModel{
             if (file_exists($path))
                 unlink($path);
         });
+    }
+
+    public function deleteAssocSocios($assocId){
+        $this->db->delete('socios')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
     }
 }
