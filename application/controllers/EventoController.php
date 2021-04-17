@@ -92,6 +92,14 @@ class EventoController extends MainController{
             return;
         }
         $id = $parametros[0];
+        if (!$this->model->exists($id)){
+            gotoPage('404/');
+            return;
+        }
+        if (!$this->model->eventoIsOnAssociacao($id, $this->userInfo->associacaoId) && !LoginCore::isSuperAdmin($this->userInfo->id)){
+            gotoPage('?error=af');
+            return;
+        }
         $evento = $this->model->getEvento($id);
         $titulo = $evento->titulo;
         $conteudo = $evento->conteudo;
