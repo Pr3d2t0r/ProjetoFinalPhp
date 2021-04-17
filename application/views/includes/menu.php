@@ -19,5 +19,13 @@
             <li><a href="<?php echo HOME_URI;?>pessoal/">Pessoal</a></li>
             <li>Welcome <?php echo $this->userInfo->username; ?></li>
         <?php endif; ?>
+        <li>
+            <span>Pt</span>
+            <label class="switch">
+                <input type="checkbox" id="lang">
+                <span class="slider round"></span>
+            </label>
+            <span>En</span>
+        </li>
     </ul>
 </nav>
