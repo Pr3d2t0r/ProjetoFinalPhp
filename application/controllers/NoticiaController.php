@@ -88,9 +88,15 @@ class NoticiaController extends MainController{
         if (isset($parametros['get']['next']))
             $nextPage = $parametros['get']['next'];
         $pagina = $parametros['get']['path'];
+        if (!isset($parametros[0])){
+            gotoPage('404/');
+            return;
+        }
         $noticia = $this->model->getNoticia($parametros[0]);
-        if ($noticia === false)
-            gotoPage("404");
+        if ($noticia === false) {
+            gotoPage("404/");
+            return;
+        }
         if (!$this->loggedIn){
             gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?'?next='.$nextPage:""));
             return;

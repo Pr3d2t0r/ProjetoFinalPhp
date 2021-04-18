@@ -12,7 +12,7 @@
                 <?php else: ?>
                     <select name="assocId">
                         <?php echo $options; ?>
-                    </select>
+                    </select><br>
                 <?php endif; ?>
                 <?php if ($nextPage != null): ?>
                     <input type="hidden" name="nextPage" value="<?php echo $nextPage; ?>">
@@ -23,6 +23,12 @@
                     </div>
                 <?php endif; ?>
                 <input type="submit" value="Criar evento">
+                <?php //todo remover este estilo quando for estilizar ?>
+                <?php if (!$this->superAdm): ?>
+                    <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
+                <?php else: ?>
+                    <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'noticia/all'?>">Cancel</a>
+                <?php endif; ?>
             </form>
         </div>
     </div>

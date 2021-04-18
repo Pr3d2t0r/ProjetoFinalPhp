@@ -29,7 +29,11 @@
                     </div>
                 <?php endif; ?>
                 <input type="submit" value="Criar evento">
-                <a href="" class="sbmt-btn">Cancelar</a>
+                <?php if (!$this->superAdm): ?>
+                    <a class="sbmt-btn" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
+                <?php else: ?>
+                    <a class="sbmt-btn" href="<?php echo HOME_URI . 'associacao/all'?>">Cancel</a>
+                <?php endif; ?>
             </form>
         </div>
     </div>

@@ -23,6 +23,8 @@
                 <?php endif; ?>
                 <br />
                 <input type="submit" value="Register">
+                <?php //todo remover este estilo quando for estilizar ?>
+                <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
             </form>
         </div>
     </div>

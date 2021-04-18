@@ -17,6 +17,8 @@
                     </div>
                 <?php endif; ?>
                 <input type="submit" value="Guardar">
+                <?php //todo remover este estilo quando for estilizar ?>
+                <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'evento/' . $id;?>">Cancel</a>
             </form>
         </div>
     </div>

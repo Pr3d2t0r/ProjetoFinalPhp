@@ -88,8 +88,8 @@ class EventoHandler extends PageHandler{
         }
         $conteudo = $_POST['conteudo'];
 
-        $eventoId = $this->model->update($id, $titulo, $conteudo, $data);
-        gotoPage('evento/' . $eventoId);
+        $this->model->update($id, $titulo, $conteudo, $data);
+        gotoPage('evento/' . $id);
     }
 
     public function participar(){

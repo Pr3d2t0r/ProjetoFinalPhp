@@ -22,7 +22,7 @@
                     </div>
                 <?php endif; ?>
                 <input type="submit" value="Guardar">
-                <a href="" class="sbmt-btn">Cancelar</a>
+                <a class="sbmt-btn" href="<?php echo HOME_URI . 'noticia/' . $noticia->id;?>">Cancel</a>
             </form>
         </div>
     </div>
