@@ -157,28 +157,29 @@ class NoticiaController extends MainController{
             return;
         }
         $noticias = $this->model->getAllByAssociacao($parametros[0]);
-        $noticiasHTML = iterate($noticias, function ($el){
-            $titulo = $el->titulo;
-            $conteudo = $el->conteudo;
-            $img = $el->caminhoImg;
-            $id = $el->id;
-            $act = "";
-            if ($this->hasPermissions('Gerir-noticias', $this->userInfo->permissions)){
-                $act = "<a href=\"" . HOME_URI . "noticia/editar/" . $id ."\">Editar</a><a href=\"" . HOME_URI . "noticia/apagar/" . $id ."\">Apagar</a>";
-            }
+        $noticiasHTML = "<p class='none-msg'>Esta associacao não tem nenhuma noticia!</p>";
+        if (count($noticias) > 0) {
+            $noticiasHTML = iterate($noticias, function ($el) {
+                $titulo = $el->titulo;
+                $conteudo = $el->conteudo;
+                $img = $el->caminhoImg;
+                $id = $el->id;
+                $act = "";
+                if ($this->hasPermissions('Gerir-noticias', $this->userInfo->permissions))
+                    $act = "<div class='edt-cntrls'><a class='edt-btn' href=\"" . HOME_URI . "noticia/editar/" . $id . "\">Editar</a><a class='edt-btn' href=\"" . HOME_URI . "noticia/apagar/" . $id . "\">Apagar</a></div>";
 
-            return <<<HTML
-                        <hr>
-                        <div>
-                            <h1>$titulo</h1>
-                            <p>$conteudo</p>
-                            <img src="$img" alt="">
-                        </div>
-                        $act
-                        <hr>
-                    HTML;
-        });
-        $noticiasHTML = implode(' ', $noticiasHTML);
+
+                return <<<HTML
+                            <div class="ntc-card">
+                                <h1>$titulo</h1>
+                                <p>$conteudo</p>
+                                <img src="$img" alt="">
+                                $act                      
+                            </div>
+                        HTML;
+            });
+            $noticiasHTML = implode(' ', $noticiasHTML);
+        }
 
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';

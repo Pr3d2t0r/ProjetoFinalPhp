@@ -102,4 +102,33 @@ p, h1, a:not(nav a){
     margin-left: 0;
 }
 
+.edt-btn{
+    border: #1cc8a0 solid 1px;
+    border-radius: 9px;
+    padding: 5px 10px;
+    margin-right: 15px;
+}
 
+.edt-cntrls{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ntc-card{
+    width: 100%;
+    border-bottom: solid 2px #1cc8a0;
+}
+
+.ntc-card:first-child{
+    border-top: solid 2px #1cc8a0;
+}
+
+.ntc-card img {
+    height: 350px;
+    width: auto;
+}
+
+.none-msg{
+    color: #1cc8a0;
+    font-size: 25px;
+}
