@@ -55,6 +55,8 @@ class AssociacaoModel extends MainModel{
             ->runQuery([':id'=>$id]);
         $this->deleteImgs($id);
         $this->deleteAssocSocios($id);
+        $this->deleteAssocNoticias($id);
+        $this->deleteAssocEventos($id);
     }
 
     public function deleteImgs($assocId){
@@ -76,7 +78,46 @@ class AssociacaoModel extends MainModel{
     }
 
     public function deleteAssocSocios($assocId){
+        $result = $this->db->select(['id'])
+            ->from('socios')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+        iterate($result, function ($el){
+           $this->db->delete('quotas')
+               ->where('socioId=:socioId')
+               ->runQuery([':socioId'=>$el->id]);
+        });
         $this->db->delete('socios')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+    }
+
+    public function deleteAssocNoticias($assocId){
+        $result = $this->db->select(['id'])
+            ->from('noticias')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+        iterate($result, function ($el){
+            $this->db->delete('noticiasgostos')
+                ->where('noticiaId=:noticiaId')
+                ->runQuery([':noticiaId'=>$el->id]);
+        });
+        $this->db->delete('noticias')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+    }
+
+    public function deleteAssocEventos($assocId){
+        $result = $this->db->select(['id'])
+            ->from('eventos')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+        iterate($result, function ($el){
+            $this->db->delete('eventosinscricoes')
+                ->where('eventoId=:eventoId')
+                ->runQuery([':eventoId'=>$el->id]);
+        });
+        $this->db->delete('eventos')
             ->where('associacaoId=:associacaoId')
             ->runQuery([':associacaoId'=>$assocId]);
     }
