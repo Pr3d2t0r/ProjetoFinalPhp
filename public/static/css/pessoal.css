@@ -114,29 +114,23 @@
     border: solid 2px #102b3e;
     padding: 10px;
 }
-
 #socios .quota-card:first-child{
     margin-top: 15px;
 }
-
 .controls{
     color: #1cc8a0;
     font-size: 30px;
 }
-
 .controls div{
     margin-top: 15px;
 }
 .controls div:last-child{
     margin-left: 290px;
 }
-
-
 .quota-card .info p{
     color: #1cc8a0;
     font-size: 18px;
 }
-
 .quota-card .action{
     display: flex;
     flex-direction: column;
@@ -144,24 +138,19 @@
     align-content: center;
     margin-left: 20px;
 }
-
 #conta, #quotas, #eventos, #noticias, #socios{
     display: none;
 }
-
 #eventos .evento-card{
     border: solid 2px #1cc8a0;
     padding: 10px;
 }
-
 #eventos p{
     margin-left: 8px;
 }
-
 #eventos .evento-card p:first-child{
     font-size: 22px;
 }
-
 #eventos .evento-card p{
     color: #1cc8a0;
     font-size: 18px;
@@ -214,6 +203,6 @@
     background-color: #ced8e1;
 }
 
-#acordion-socios{
+#acordion-socios, #acordion-eventos{
     width: 650px;
 }

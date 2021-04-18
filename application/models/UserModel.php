@@ -235,4 +235,20 @@ class UserModel extends MainModel{
         });
         return $assocs;
     }
+
+    public function getAllEventosByAssoc(){
+        $result = $this->db->select(['id', 'nome'])
+            ->from('associacao')
+            ->runQuery();
+        $assocs = iterate($result, function ($el) use (&$assocs){
+            $eventos = $this->db->select(['eventos.*','associacao.nome'])
+                ->from('eventos inner join associacao')
+                ->on('eventos.associacaoId=associacao.id')
+                ->where('eventos.data > NOW() and associacaoId=:associacaoId')
+                ->runQuery([':associacaoId'=>$el->id]);
+            return ["assocNome"=>$el->nome,"eventos"=>$eventos];
+        });
+        return $assocs;
+
+    }
 }

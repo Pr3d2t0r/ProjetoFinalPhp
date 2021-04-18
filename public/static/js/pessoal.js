@@ -7,7 +7,7 @@ function pessoal() {
         controls[x].addEventListener("click", parentSubmit);
     urlPage();
     cDialog();
-    acordSocios();
+    acords();
 }
 
 options = {
@@ -73,8 +73,8 @@ function cDialog(){
     });
 }
 
-function acordSocios(){
-    $( "#acordion-socios" ).accordion({
+function acords(){
+    $("#acordion-socios, #acordion-eventos").accordion({
         collapsible: true,
         icons:{
             header: "ui-icon-circle-arrow-e",

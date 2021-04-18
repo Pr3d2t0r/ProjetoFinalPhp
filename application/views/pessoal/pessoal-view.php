@@ -123,30 +123,34 @@
                 <?php else: ?>
                     <p>Eventos Ativos</p>
                 <?php endif; ?>
-                <?php echo $eventosHTML; ?>
-                <?php if ($eventosPaginator->show): ?>
-                    <div class="eventos-controls controls grid">
-                        <?php if ($eventosPaginator->hasPreviousPage): ?>
+                <div id="acordion-eventos">
+                    <?php echo $eventosHTML; ?>
+                </div>
+                <?php if (!$this->superAdm):?>
+                    <?php if ($eventosPaginator->show): ?>
+                        <div class="eventos-controls controls grid">
+                            <?php if ($eventosPaginator->hasPreviousPage): ?>
+                                <div>
+                                    <form action="#eventos">
+                                        <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
+                                        <i class="fas fa-arrow-circle-left"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
                             <div>
-                                <form action="#eventos">
-                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum - 1; ?>">
-                                    <i class="fas fa-arrow-circle-left"></i>
-                                </form>
+                                <span><small>Pagina: <?php echo $eventosPaginator->pageNum; ?></small></span>
                             </div>
-                        <?php endif; ?>
-                        <div>
-                            <span><small>Pagina: <?php echo $eventosPaginator->pageNum; ?></small></span>
+                            <?php if ($eventosPaginator->hasNextPage): ?>
+                                <div>
+                                    <form action="#eventos">
+                                        <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum + 1; ?>">
+                                        <i class="fas fa-arrow-circle-right"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php if ($eventosPaginator->hasNextPage): ?>
-                            <div>
-                                <form action="#eventos">
-                                    <input type="hidden" name="page" value="<?php echo $eventosPaginator->pageNum + 1; ?>">
-                                    <i class="fas fa-arrow-circle-right"></i>
-                                </form>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                <?php endif;?>
             </article>
             <?php if ($superAdm): ?>
                 <article id="socios" style="height: 100%">

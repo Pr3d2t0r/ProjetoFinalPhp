@@ -30,7 +30,7 @@ class PessoalController extends MainController{
             // todo
         }
         if ($superAdm){
-            $eventos = $this->model->getAllEventos(false);
+            $eventos = $this->model->getAllEventosByAssoc(false);
             $quotas = $this->model->getAllQuotas();
             $noticias = $this->model->getAllNoticias();
             $socios = $this->model->getAllSociosByAssoc();
@@ -81,25 +81,19 @@ class PessoalController extends MainController{
                 return "<option value='$el->id'>$el->nome</option>";
             });
             $options = implode(' ', $options);
-        }
-        $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
-        $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
-        $quotasPaginator = (new Paginator($quotas, page: $pageNum))->prepare()->use();
-        $noticias = $noticiasPaginator->itens;
-        $eventos = $eventosPaginator->itens;
-        $quotas = $quotasPaginator->itens;
-
-        $eventosHTML = "<p>Este user ainda não participou em nenhum evento!</p>";
-        if (count($eventos)>0){
-            $eventosHTML = iterate($eventos, function ($el){
-                $id = $el->id;
-                $titulo = $el->titulo;
-                $conteudo = $el->conteudo;
-                $data = $el->data;
-                $clonarBtn = '';
-                if ($this->superAdm)
-                    $clonarBtn = "<button class='clonar-btn'>Clonar</button>";
-                return <<<HTML
+            $eventosHTML = [];
+            iterate ($eventos, function($el) use (&$eventosHTML){
+                $eventosHTMLS = [];
+                for ($i = 0; $i < count($el['eventos']); $i++){
+                    $evento = $el['eventos'][$i];
+                    $id = $evento->id;
+                    $titulo = $evento->titulo;
+                    $conteudo = $evento->conteudo;
+                    $data = $evento->data;
+                    $clonarBtn = '';
+                    if ($this->superAdm)
+                        $clonarBtn = "<button class='clonar-btn'>Clonar</button>";
+                    $eventosHTMLS[] = <<<HTML
                             <div class="evento-card">
                                 <div class="grid" id="$id">
                                     <div>
@@ -113,9 +107,52 @@ class PessoalController extends MainController{
                                 </div>
                             </div>
                     HTML;
+                }
+                $eventosHTMLS = implode(' ', $eventosHTMLS);
+                $assocNome = $el['assocNome'];
+                $eventosHTML[] = <<<HTML
+                                    <h3>$assocNome</h3>
+                                    <div>
+                                        $eventosHTMLS
+                                    </div>
+                                HTML;
             });
-            $eventosHTML = implode(' ', $eventosHTML);
+        }else{
+            $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
+            $noticias = $noticiasPaginator->itens;
+            $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
+            $eventos = $eventosPaginator->itens;
+            $quotasPaginator = (new Paginator($quotas, page: $pageNum))->prepare()->use();
+            $quotas = $quotasPaginator->itens;
+            $eventosHTML = "<p>Este user ainda não participou em nenhum evento!</p>";
+            if (count($eventos)>0){
+                $eventosHTML = iterate($eventos, function ($el){
+                    $id = $el->id;
+                    $titulo = $el->titulo;
+                    $conteudo = $el->conteudo;
+                    $data = $el->data;
+                    $clonarBtn = '';
+                    if ($this->superAdm)
+                        $clonarBtn = "<button class='clonar-btn'>Clonar</button>";
+                    return <<<HTML
+                            <div class="evento-card">
+                                <div class="grid" id="$id">
+                                    <div>
+                                        <p>$titulo</p>
+                                        <p>$conteudo</p>
+                                        <p>$data</p>
+                                    </div>
+                                    <div>
+                                        $clonarBtn
+                                    </div>
+                                </div>
+                            </div>
+                    HTML;
+                });
+                $eventosHTML = implode(' ', $eventosHTML);
+            }
         }
+        $eventosHTML = implode(' ', $eventosHTML);
         $noticiasHTML = "<p>Este user ainda não gostou de nenhuma noticia!</p>";
         if (count($noticias)>0){
             $noticiasHTML = iterate($noticias, function ($el){
