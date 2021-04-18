@@ -37,7 +37,7 @@ class EventoModel extends MainModel{
     public function getAllAssociacao($associacaoId){
         return $this->db->select()
             ->from($this->tableName)
-            ->where('associacaoId=:associacaoId')
+            ->where('associacaoId=:associacaoId and eventos.data > NOW()')
             ->runQuery([':associacaoId'=>$associacaoId]);
     }
 
