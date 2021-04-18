@@ -1,47 +1,67 @@
 <div class="main">
     <div class="grid">
-        <div class="col">
-            <div>
-                <div class="img">
-                    <img src="" alt="" id="img-assoc">
+        <div>
+            <div class="container">
+                <?php if ($this->superAdm):?>
+                    <div class="link">
+                        <div class="text"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
+                    </div>
+                    <div class="link">
+                        <div class="text"><a href="#" onclick="confirma('<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>')">Apagar</a></div>
+                    </div>
+                <?php endif; ?>
+                <?php if ($adm): ?>
+                    <div class="link">
+                        <div class="text"><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
+                    </div>
+                <?php endif; ?>
+                <?php if ($gerirEventos): ?>
+                    <div class="link">
+                        <div class="text"><a href="<?php echo HOME_URI . 'evento/criar'; ?>">Add Evento</a></div>
+                    </div>
+                <?php endif; ?>
+                <?php if ($gerirNoticias): ?>
+                    <div class="link">
+                        <div class="text"><a href="<?php echo HOME_URI . 'noticia/criar'; ?>">Add noticia</a></div>
+                    </div>
+                <?php endif; ?>
+                <div class="link">
+                    <div class="text"><a href="<?php echo HOME_URI . 'noticia/all/' . $assoc->id; ?>">Ver noticias</a></div>
                 </div>
-                <div class="controls">
-                    <div class="grid">
-                        <div class="col">
-                            <i class="fas fa-arrow-circle-left" onclick="galeria(true)"></i>
+                <div class="link">
+                    <div class="text"><a href="<?php echo HOME_URI . '?assocId=' . $assoc->id; ?>">Ver Eventos</a></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="grid">
+                <div class="col">
+                    <div>
+                        <div class="img">
+                            <img src="" alt="" id="img-assoc">
                         </div>
-                        <div class="col">
-                            <i class="fas fa-arrow-circle-right" onclick="galeria()"></i>
+                        <div class="controls">
+                            <div class="grid">
+                                <div class="col">
+                                    <i class="fas fa-arrow-circle-left" onclick="galeria(true)"></i>
+                                </div>
+                                <div class="col">
+                                    <i class="fas fa-arrow-circle-right" onclick="galeria()"></i>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <h1><?php echo $assoc->nome; ?></h1>
+                        <p>Telefone: <?php echo $assoc->telefone; ?></p>
+                        <p>Morada: <?php echo $assoc->morada; ?></p>
+                        <p>Nº de contribuinte: <?php echo $assoc->nContribuinte; ?></p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div>
-                <h1><?php echo $assoc->nome; ?></h1>
-                <p>Telefone: <?php echo $assoc->telefone; ?></p>
-                <p>Morada: <?php echo $assoc->morada; ?></p>
-                <p>Nº de contribuinte: <?php echo $assoc->nContribuinte; ?></p>
-            </div>
-        </div>
-    </div>
-    <div class="grid">
-        <?php if ($this->superAdm):?>
-            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
-            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>">Apagar</a></div>
-        <?php endif; ?>
-        <?php if ($adm): ?>
-            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
-        <?php endif; ?>
-        <?php if ($gerirEventos): ?>
-            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'evento/criar'; ?>">Add Evento</a></div>
-        <?php endif; ?>
-        <?php if ($gerirNoticias): ?>
-            <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'noticia/criar'; ?>">Add noticia</a></div>
-        <?php endif; ?>
-        <div style="margin-right: 25px;"><a href="<?php echo HOME_URI . 'noticia/all/' . $assoc->id; ?>">Ver noticias</a></div>
-        <div><a href="<?php echo HOME_URI ?>">Ver Eventos</a></div>
     </div>
     <div class="title">
         <h1>Socios</h1>

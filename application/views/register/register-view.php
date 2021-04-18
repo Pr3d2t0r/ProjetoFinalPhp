@@ -3,13 +3,12 @@
         <div class="line register"></div>
         <div>
             <p>User Register</p>
-            <form action="<?php echo HOME_URI; ?>register/" method="post">
+            <form action="<?php echo HOME_URI; ?>register/<?php echo $assocId;?>" method="post">
                 <input type="text" name="username" placeholder="Username"><br>
                 <input type="text" name="nome" placeholder="Nome"><br>
                 <input type="text" name="email" placeholder="Email"><br>
                 <input type="password" name="password" placeholder="Password"><br>
                 <input type="password" name="rPassword" placeholder="Password repeat"><br>
-                <input type="hidden" name="assocId" value="<?php echo $assocId;?>">
                 <label for="">Permissões:</label><br />
                 <?php if ($superAdm): ?>
                     <label for="">Admin<input type="checkbox" name="Admin" value="1"></label>

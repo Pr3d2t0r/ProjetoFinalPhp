@@ -86,7 +86,7 @@ class AssociacaoModel extends MainModel{
 
     public function deleteAssocSocios($assocId){
         $result = $this->db->select(['id'])
-            ->from('socios')
+            ->from('socio')
             ->where('associacaoId=:associacaoId')
             ->runQuery([':associacaoId'=>$assocId]);
         iterate($result, function ($el){
@@ -94,7 +94,7 @@ class AssociacaoModel extends MainModel{
                ->where('socioId=:socioId')
                ->runQuery([':socioId'=>$el->id]);
         });
-        $this->db->delete('socios')
+        $this->db->delete('socio')
             ->where('associacaoId=:associacaoId')
             ->runQuery([':associacaoId'=>$assocId]);
     }
@@ -120,7 +120,7 @@ class AssociacaoModel extends MainModel{
             ->where('associacaoId=:associacaoId')
             ->runQuery([':associacaoId'=>$assocId]);
         iterate($result, function ($el){
-            $this->db->delete('eventosinscricoes')
+            $this->db->delete('eventoinscricoes')
                 ->where('eventoId=:eventoId')
                 ->runQuery([':eventoId'=>$el->id]);
         });

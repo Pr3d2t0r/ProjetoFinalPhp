@@ -1,6 +1,6 @@
 function associacao() {
-    if (!location.pathname.includes('all'))
-        galeria(false, true);
+    galeria(false, true);
+    menuLateral();
 }
 var i = 0;
 function galeria(back=false, first=false){
@@ -15,29 +15,43 @@ function galeria(back=false, first=false){
         url: ftPath,
         contentType: "application/json",
         success: function(json){
-            json = JSON.parse(json);
-            if (json.error === '404' || json.success == false) {
-                location.href = error404Path;
-                return;
-            }
-            if (json.error === 'af') {
-                location.href = homePath + "?error=af";
-                return;
-            }
+            json = JSON.parse(json)
             var caminhos = json.caminhos;
             if (!first)
                 if (back)
                     i--;
                 else
                     i++;
-            if (i>=caminhos.length)
-                i = 0;
-            else if (i<0)
-                i=caminhos.length-1
-            document.getElementById('img-assoc').src = caminhos[i];
-        },
-        error: function(){
-            location.href = error500Path;
+            if (caminhos != undefined) {
+                if (i >= caminhos.length)
+                    i = 0;
+                else if (i < 0)
+                    i = caminhos.length - 1
+                document.getElementById('img-assoc').src = caminhos[i];
+            }
         }
     });
+}
+
+function menuLateral(){
+    var links = document.getElementsByClassName('link')
+    for(var i = 0; i <= links.length; i++)
+        addClass(i)
+
+
+    function addClass(id){
+        setTimeout(function(){
+            if(id > 0)
+                if (links[id-1] !== undefined)
+                    links[id-1].classList.remove('hover')
+            if (links[id] !== undefined)
+                links[id].classList.add('hover')
+        }, id*750)
+    }
+}
+
+function confirma(url) {
+    var conf = confirm('Deseja mesmo apagar esta associacao?');
+    if (conf)
+        location.href = url;
 }

@@ -17,6 +17,11 @@ class RegisterHandler extends PageHandler{
             gotoPage('login/?error=af&next='.gotoPage($_GET['path']));
             return;
         }
+        if (!isset($parametros[0])){
+            gotoPage('500/');
+            return;
+        }
+        $assocId = $parametros[0];
         if (!isset($_POST['username']) || empty($_POST['username'])) {
             gotoPage($parametros['get']['path'] . '?error=eu');
             return;
@@ -65,11 +70,7 @@ class RegisterHandler extends PageHandler{
             gotoPage($parametros['get']['path'] . '?error=ei');
             return;
         }
-        if (!isset($_POST['assocId'])){
-            gotoPage('500/');
-            return;
-        }
-        $assocId = $_POST['assocId'];
+
         $permissions = ['Any'];
         if (isset($_POST['Admin']))
             $permissions[] = 'Admin';

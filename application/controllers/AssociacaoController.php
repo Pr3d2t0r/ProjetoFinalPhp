@@ -127,7 +127,7 @@ class AssociacaoController extends MainController{
                                         <p>Morada: <strong>$morada</strong></p>
                                         <p>Telefone: <strong>$telefone</strong></p>
                                         <p>Nº contribuinte: <strong>$nContribuinte</strong></p>
-                                        <p><a href="$home">Ver Mais</a> | <a href="$editar">Editar</a> | <a href="$del">Apagar</a></p>
+                                        <p><a href="$home">Ver Mais</a> | <a href="$editar">Editar</a> | <a href="#" onclick="confirma('$del')">Apagar</a></p>
                                     </div>                            
                                 </div>
                             </article>
