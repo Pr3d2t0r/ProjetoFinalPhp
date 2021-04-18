@@ -12,4 +12,9 @@ window.onload = function () {
     if (typeof main == "function") {
         main();
     }
+
+    //associacao.js
+    if (typeof associacao == "function"){
+        associacao();
+    }
 }

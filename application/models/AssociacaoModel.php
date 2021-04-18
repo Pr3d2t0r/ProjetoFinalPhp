@@ -20,6 +20,13 @@ class AssociacaoModel extends MainModel{
         return $this->db->select()->from($this->tableName)->runQuery();
     }
 
+    public function getCaminhoFotos($assocId){
+        return $this->db->select(['caminho'])
+            ->from('imagensassociacao')
+            ->where('associacaoId=:associacaoId')
+            ->runQuery([':associacaoId'=>$assocId]);
+    }
+
     public function userIsOnAssociacao($id){
         $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=:associacaoId")->runQuery([':id'=>$this->info->id, ':associacaoId'=>$id]);
         return isset($result[0]);

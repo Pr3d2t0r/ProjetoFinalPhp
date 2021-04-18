@@ -3,15 +3,15 @@
         <div class="col">
             <div>
                 <div class="img">
-                    <img src="https://picsum.photos/500/500" alt="">
+                    <img src="" alt="" id="img-assoc">
                 </div>
                 <div class="controls">
                     <div class="grid">
                         <div class="col">
-                            <i class="fas fa-arrow-circle-left"></i>
+                            <i class="fas fa-arrow-circle-left" onclick="galeria(true)"></i>
                         </div>
                         <div class="col">
-                            <i class="fas fa-arrow-circle-right"></i>
+                            <i class="fas fa-arrow-circle-right" onclick="galeria()"></i>
                         </div>
                     </div>
                 </div>

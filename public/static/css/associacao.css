@@ -89,3 +89,12 @@
 .socio-grid article .body div:last-child{
     margin-left: 15px;
 }
+
+.img img{
+    width: 500px;
+    height: auto;
+}
+.simg img{
+    height: 100px;
+    width: auto;
+}

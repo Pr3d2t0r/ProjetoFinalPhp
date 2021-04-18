@@ -10,6 +10,7 @@ class AssociacaoController extends MainController{
     public function __construct(){
         parent::__construct();
         $this->stylesheet="associacao.css";
+        $this->script="associacao.js";
         $this->model = $this->loadModel('AssociacaoModel');
         $this->title="Associacao";
         $this->permission_required = 'Gerir-associcao';
@@ -105,12 +106,21 @@ class AssociacaoController extends MainController{
                 $editar = HOME_URI . 'associacao/editar/'.$el->id;
                 $del = HOME_URI . 'associacao/apagar/'.$el->id;
                 $home = HOME_URI . 'associacao/'.$el->id;
-
+                $caminhos = $this->model->getCaminhoFotos($el->id);
+                if (count($caminhos) > 1)
+                    $i = rand(0,count($caminhos)-1);
+                else if (count($caminhos) === 0)
+                    $i = false;
+                else
+                    $i = 0;
+                $imgPath = 'https://picsum.photos/100/100';
+                if ($i !== false)
+                    $imgPath = $caminhos[$i]->caminho;
                 return <<<HTML
                             <article>
                                 <div class="body">
-                                    <div>
-                                        <img src="https://picsum.photos/100/100" alt="">
+                                    <div class="simg">
+                                        <img src="$imgPath" alt="Img associacao">
                                     </div>
                                     <div>
                                         <h2>$nome</h2>
@@ -206,5 +216,26 @@ class AssociacaoController extends MainController{
         }
         $this->model->delete($id);
         gotoPage('?success=6');
+    }
+
+    public function fotos(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $assocId = $parametros[0];
+        if (!$this->loggedIn)
+            $res = ['error'=>'af'];
+        else if (!$this->model->userIsOnAssociacao($assocId) && !$this->superAdm)
+            $res = ['error'=>'af'];
+        else if ($this->model->getAssociacaoInfo($assocId) === false)
+            $res = ['error'=>'404'];
+        else{
+            $caminhos = $this->model->getCaminhoFotos($assocId);
+            $res = [
+                'success'=>true,
+                'caminhos'=>iterate($caminhos, function ($el){
+                    return $el->caminho;
+                })
+            ];
+        }
+        echo json_encode($res);
     }
 }
