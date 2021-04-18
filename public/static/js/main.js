@@ -12,7 +12,7 @@ function lang(){
     var lang = document.getElementById('lang');
     lang.onchange=function () {
         console.log((this.checked === true)?'en':'pt')
-        document.cookie = "lang="+((this.checked === true)?'en':'pt');
+        document.cookie = "lang="+((this.checked === true)?'en':'pt')+";path=/";
     }
 }
 
