@@ -1,5 +1,5 @@
 <div class="banner">
-    <p>Criar Associação</p><br />
+    <p class="pmsg">Criar Associação</p><br />
     <form action="<?php echo HOME_URI . 'associacao/criar/'?>" method="post" enctype="multipart/form-data">
         <input type="text" name="nome" placeholder="Nome da associação!"><br /><br />
         <input type="text" name="morada" placeholder="Morada da associação!"><br /><br />
