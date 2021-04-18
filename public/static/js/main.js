@@ -56,3 +56,7 @@ function getCookie( name ) {
 
     return decodeURI(dc.substring(begin + prefix.length, end) ).replace(/\"/g, '');
 }
+
+function fParentSubmit(obj) {
+    obj.parentNode.submit();
+}

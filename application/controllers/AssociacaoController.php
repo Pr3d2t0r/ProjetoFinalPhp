@@ -96,6 +96,12 @@ class AssociacaoController extends MainController{
             gotoPage("?error=af");
             return;
         }
+        if (isset($parametros['get']['q']) && !empty($parametros['get']['q'])){
+            $q = $parametros['get']['q'];
+            $assocsArr = filter($assocsArr, function ($el) use ($q){
+                return str_contains(strtoupper($el->nome), strtoupper($q));
+            });
+        }
         $assocs = "<p>Ainda não existem associações!</p>";
         if (count($assocsArr)>0) {
             $assocs = iterate($assocsArr, function ($el) {
