@@ -63,7 +63,9 @@
                 <?php else: ?>
                     <p>Noticias</p>
                 <?php endif; ?>
-                <?php echo $noticiasHTML; ?>
+                <div id="acordionNoticias">
+                    <?php echo $noticiasHTML; ?>
+                </div>
                 <?php if ($noticiasPaginator->show):?>
                     <div class="eventos-controls controls grid">
                         <?php if ($noticiasPaginator->hasPreviousPage): ?>
@@ -147,32 +149,11 @@
                 <?php endif; ?>
             </article>
             <?php if ($superAdm): ?>
-                <article id="socios">
+                <article id="socios" style="height: 100%">
                     <p>Socios</p>
-                    <?php echo $sociosHTML ?>
-                    <?php if ($sociosPaginator->show): ?>
-                        <div class="eventos-controls controls grid">
-                            <?php if ($sociosPaginator->hasPreviousPage): ?>
-                                <div>
-                                    <form action="#socios">
-                                        <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum - 1; ?>">
-                                        <i class="fas fa-arrow-circle-left"></i>
-                                    </form>
-                                </div>
-                            <?php endif; ?>
-                            <div>
-                                <span><small>Pagina: <?php echo $sociosPaginator->pageNum; ?></small></span>
-                            </div>
-                            <?php if ($sociosPaginator->hasNextPage): ?>
-                                <div>
-                                    <form action="#socios">
-                                        <input type="hidden" name="page" value="<?php echo $sociosPaginator->pageNum + 1; ?>">
-                                        <i class="fas fa-arrow-circle-right"></i>
-                                    </form>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                    <div id="acordion-socios">
+                        <?php echo $sociosHTML ?>
+                    </div>
                 </article>
             <?php //else: ?>
             <?php endif; ?>

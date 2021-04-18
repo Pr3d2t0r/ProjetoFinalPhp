@@ -111,7 +111,7 @@
     margin-top: 15px;
 }
 #socios .quota-card{
-    border: solid 2px #1cc8a0;
+    border: solid 2px #102b3e;
     padding: 10px;
 }
 
@@ -204,4 +204,16 @@
 }
 #noticias .evento-card:first-child{
     margin-top: 15px;
+}
+
+.ui-accordion-content{
+    height: 200px;
+}
+
+.ui-widget-content{
+    background-color: #ced8e1;
+}
+
+#acordion-socios{
+    width: 650px;
 }

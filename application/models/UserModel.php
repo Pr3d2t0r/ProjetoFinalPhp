@@ -221,4 +221,18 @@ class UserModel extends MainModel{
             ->from('associacao')
             ->runQuery();
     }
+
+    public function getAllSociosByAssoc(){
+        $result = $this->db->select(['id', 'nome'])
+            ->from('associacao')
+            ->runQuery();
+        $assocs = iterate($result, function ($el) use (&$assocs){
+            $socios = $this->db->select()
+                ->from('socio')
+                ->where('associacaoId=:associacaoId')
+                ->runQuery([':associacaoId'=>$el->id]);
+            return ["assocNome"=>$el->nome,"socios"=>$socios];
+        });
+        return $assocs;
+    }
 }

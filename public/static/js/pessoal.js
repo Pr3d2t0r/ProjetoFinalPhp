@@ -7,6 +7,7 @@ function pessoal() {
         controls[x].addEventListener("click", parentSubmit);
     urlPage();
     cDialog();
+    acordSocios();
 }
 
 options = {
@@ -69,5 +70,15 @@ function cDialog(){
         dialog.dialog( "open" );
         var id = $(this).parent().parent().attr('id');
         $("#eventoId").val(id);
+    });
+}
+
+function acordSocios(){
+    $( "#acordion-socios" ).accordion({
+        collapsible: true,
+        icons:{
+            header: "ui-icon-circle-arrow-e",
+            activeHeader: "ui-icon-circle-arrow-s"
+        }
     });
 }

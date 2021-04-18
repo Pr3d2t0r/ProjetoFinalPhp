@@ -33,26 +33,26 @@ class PessoalController extends MainController{
             $eventos = $this->model->getAllEventos(false);
             $quotas = $this->model->getAllQuotas();
             $noticias = $this->model->getAllNoticias();
-            $socios = $this->model->getAll();
-            $sociosPaginator = (new Paginator($socios, 2, page: $pageNum))->prepare()->use();
-            $socios = $sociosPaginator->itens;
-            $sociosHTML = iterate($socios, function ($el) {
-                $nome = $el->nome;
-                $email = $el->email;
-                $username = $el->username;
-                $permissions = implode( ', ', $el->permissions);
-                $assocNome = $el->associacaoNome;
-                $id = $el->id;
-                $editPerms = HOME_URI . "pessoal/perms/$id";
-                // todo $enviarEmail = HOME_URI . "pessoal/email/$id";
-                return <<<HTML
+            $socios = $this->model->getAllSociosByAssoc();
+            $sociosHTML = [];
+            iterate ($socios, function($el) use (&$sociosHTML){
+                $sociosHTMLS = [];
+                for ($i = 0; $i < count($el['socios']); $i++){
+                    $socio = $el['socios'][$i];
+                    $nome = $socio->nome;
+                    $email = $socio->email;
+                    $username = $socio->username;
+                    $permissions = implode( ', ', unserialize($socio->permissions));
+                    $id = $socio->id;
+                    $editPerms = HOME_URI . "pessoal/perms/$id";
+                    // todo $enviarEmail = HOME_URI . "pessoal/email/$id";
+                    $sociosHTMLS[] = <<<HTML
                             <div class="grid quota-card">
                                 <div class="info">
                                     <p>Nome: $nome</p>
                                     <p>Email: $email</p>
                                     <p>Username: $username</p>
-                                    <p>Permissões: $permissions</p>
-                                    <p>Associação: $assocNome</p>
+                                    <p>Permissões: $permissions</p>                                 
                                 </div>
                                 <div class="action">
                                     <form action="" method="post">
@@ -65,6 +65,15 @@ class PessoalController extends MainController{
                                 </div>
                             </div>
                     HTML;
+                }
+                $sociosHTMLS = implode(' ', $sociosHTMLS);
+                $assocNome = $el['assocNome'];
+                $sociosHTML[] = <<<HTML
+                                    <h3>$assocNome</h3>
+                                    <div>
+                                        $sociosHTMLS
+                                    </div>
+                                HTML;
             });
             $sociosHTML = implode(' ', $sociosHTML);
             $assocs = $this->model->getAllAssociacoes();
