@@ -4,25 +4,25 @@
             <div class="container">
                 <?php if ($this->superAdm):?>
                     <div class="link">
-                        <div class="text"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id; ?>">Editar</a></div>
+                        <div class="text"><a href="<?php echo HOME_URI . 'associacao/editar/' . $assoc->id . "?next=$pagina".(($nextPage != null)?'?next='.$nextPage:""); ?>">Editar</a></div>
                     </div>
                     <div class="link">
-                        <div class="text"><a href="#" onclick="confirma('<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id; ?>')">Apagar</a></div>
+                        <div class="text"><a href="#" onclick="confirma('<?php echo HOME_URI . 'associacao/apagar/' . $assoc->id . "?next=$pagina".(($nextPage != null)?'?next='.$nextPage:""); ?>')">Apagar</a></div>
                     </div>
                 <?php endif; ?>
                 <?php if ($adm): ?>
                     <div class="link">
-                        <div class="text"><a href="<?php echo HOME_URI . 'register/' . $assoc->id; ?>">Add Socio</a></div>
+                        <div class="text"><a href="<?php echo HOME_URI . 'register/' . $assoc->id . "?next=$pagina".(($nextPage != null)?'?next='.$nextPage:""); ?>">Add Socio</a></div>
                     </div>
                 <?php endif; ?>
                 <?php if ($gerirEventos): ?>
                     <div class="link">
-                        <div class="text"><a href="<?php echo HOME_URI . 'evento/criar'; ?>">Add Evento</a></div>
+                        <div class="text"><a href="<?php echo HOME_URI . 'evento/criar' . "?next=$pagina".(($nextPage != null)?'?next='.$nextPage:""); ?>">Add Evento</a></div>
                     </div>
                 <?php endif; ?>
                 <?php if ($gerirNoticias): ?>
                     <div class="link">
-                        <div class="text"><a href="<?php echo HOME_URI . 'noticia/criar'; ?>">Add noticia</a></div>
+                        <div class="text"><a href="<?php echo HOME_URI . 'noticia/criar' . "?next=$pagina".(($nextPage != null)?'?next='.$nextPage:""); ?>">Add noticia</a></div>
                     </div>
                 <?php endif; ?>
                 <div class="link">
