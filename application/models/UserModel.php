@@ -251,4 +251,53 @@ class UserModel extends MainModel{
         return $assocs;
 
     }
+
+    public function getTotalNoticias($superAdm, $adm){
+        if ($superAdm)
+            return $this->db->select(['count(*) as total'])
+                ->from('noticias')
+                ->runQuery()[0]->total;
+        else if ($adm)
+            return $this->db->select(['count(*) as total'])
+                ->from('noticias')
+                ->where('associacaoId=:associacaoId')
+                ->runQuery([':associacaoId'=>$this->info->associacaoId])[0]->total;
+        return $this->db->select(['count(*) as total'])
+            ->from('noticiasgostos')
+            ->where('socioId=:userId')
+            ->runQuery([':userId'=>$this->info->id])[0]->total;
+    }
+    public function getTotalEventos($superAdm, $adm){
+        if ($superAdm)
+            return $this->db->select(['count(*) as total'])
+                ->from('eventos')
+                ->runQuery()[0]->total;
+        else if ($adm) {
+            return $this->db->select(['count(*) as total'])
+                ->from('eventos')
+                ->where('associacaoId=:associacaoId')
+                ->runQuery([':associacaoId' => $this->info->associacaoId])[0]->total;
+        }
+        return $this->db->select(['count(*) as total'])
+            ->from('noticiasgostos')
+            ->where('socioId=:userId')
+            ->runQuery([':userId'=>$this->info->id])[0]->total;
+    }
+    public function getTotalQuotas($superAdm, $adm){
+        if ($superAdm)
+            return $this->db->select(['count(*) as total'])
+                ->from('quotas')
+                ->where('status=\'active\'')
+                ->runQuery()[0]->total;
+        else if ($adm)
+            return $this->db->select(['count(*) as total'])
+                ->from('quotas inner join socio inner join associacao')
+                ->on('quotas.socioId=socio.id and socio.associacaoId=associacao.id')
+                ->where('associacao.id=:associacaoId and status=\'active\'')
+                ->runQuery([':associacaoId'=>$this->info->associacaoId])[0]->total;
+        return $this->db->select(['count(*) as total'])
+            ->from('quotas')
+            ->where('socioId=:userId and status=\'active\'')
+            ->runQuery([':userId'=>$this->info->id])[0]->total;
+    }
 }

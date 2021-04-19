@@ -24,25 +24,23 @@ class PessoalController extends MainController{
             $nextPage = $parametros['get']['next'];
         $pageNum = $parametros['get']['page'] ?? 1;
 
-        $eventosPaginator = new Paginator(12, 2,  $pageNum);
+        $eventosPaginator = new Paginator($this->model->getTotalEventos($this->superAdm, $this->adm), 2,  $pageNum);
         $eventos = $eventosPaginator->getItens("select eventos.* from eventos inner join eventoinscricoes on eventoinscricoes.eventoId=eventos.id and eventoinscricoes.socioId=:socioId limit :offset, :limit;", [':socioId'=>$this->userInfo->id]);
-        $quotasPaginator = new Paginator(12, 3, $pageNum);
+        $quotasPaginator = new Paginator($this->model->getTotalQuotas($this->superAdm, $this->adm), 3, $pageNum);
         $quotas = $quotasPaginator->getItens("select quotas.* from quotas where socioId=:socioId and status='active' limit :offset, :limit;", [':socioId'=>$this->userInfo->id]);
-        $noticiasPaginator = new Paginator(3, 2,  $pageNum);
-        if (!$this->superAdm) {
-            $noticias = $noticiasPaginator->getItens("select noticias.* from noticias inner join noticiasgostos on noticiasgostos.noticiaId=noticias.id and noticiasgostos.socioId=:socioId limit :offset, :limit;", [':socioId' => $this->userInfo->id]);
-            $quotas = $quotasPaginator->getItens("select quotas.* from quotas where socioId=:socioId and status='active' limit :offset, :limit;", [':socioId'=>$this->userInfo->id]);
-        }else{
+        $noticiasPaginator = new Paginator($this->model->getTotalNoticias($this->superAdm, $this->adm), 2,  $pageNum);
+        if ($this->superAdm) {
             $noticias = $noticiasPaginator->getItens("select noticias.*, associacao.nome from noticias inner join associacao on noticias.associacaoId=associacao.id limit :offset, :limit;");
             $quotas = $quotasPaginator->getItens("select quotas.*, socio.username as nome from quotas inner join socio on quotas.socioId=socio.id and status='active' limit :offset, :limit;");
+        }else if ($this->adm){
+            $noticias = $noticiasPaginator->getItens("select noticias.*, associacao.nome from noticias inner join associacao on noticias.associacaoId=associacao.id where associacao.id=:associacaoId  limit :offset, :limit;", [':associacaoId'=>$this->userInfo->associacaoId]);
+            $quotas = $quotasPaginator->getItens("select quotas.*, socio.username as nome from quotas inner join socio on quotas.socioId=socio.id where socio.associacaoId=:associacaoId and status='active' limit :offset, :limit;", [':associacaoId'=>$this->userInfo->associacaoId]);
+            $eventos = $eventosPaginator->getItens("select * from eventos where associacaoId=:associacaoId  limit :offset, :limit;", [':associacaoId'=>$this->userInfo->associacaoId]);
+        }else{
+            $noticias = $noticiasPaginator->getItens("select noticias.* from noticias inner join noticiasgostos on noticiasgostos.noticiaId=noticias.id and noticiasgostos.socioId=:socioId limit :offset, :limit;", [':socioId' => $this->userInfo->id]);
+            $quotas = $quotasPaginator->getItens("select quotas.* from quotas where socioId=:socioId and status='active' limit :offset, :limit;", [':socioId'=>$this->userInfo->id]);
         }
-        $eventosPaginator = $eventosPaginator->getPageInfo();
-        $quotasPaginator = $quotasPaginator->getPageInfo();
-        $noticiasPaginator = $noticiasPaginator->getPageInfo();
-        if ($this->hasPermissions('admin')){
-            // todo
-        }
-        if ($superAdm){
+        if ($this->superAdm){
             $eventos = $this->model->getAllEventosByAssoc(false);
             $socios = $this->model->getAllSociosByAssoc();
             $sociosHTML = [];
@@ -154,10 +152,10 @@ class PessoalController extends MainController{
                             </div>
                     HTML;
                 });
-                $eventosHTML = implode(' ', $eventosHTML);
             }
         }
-        $eventosHTML = implode(' ', $eventosHTML);
+        if (count($eventos) > 0)
+            $eventosHTML = implode(' ', $eventosHTML);
         $noticiasHTML = "<p>Este user ainda não gostou de nenhuma noticia!</p>";
         if (count($noticias)>0){
             $noticiasHTML = iterate($noticias, function ($el){
@@ -190,7 +188,7 @@ class PessoalController extends MainController{
                 $nome = $el->nome;
                 $path = HOME_URI . 'quota/pagar/';
                 $dono = "";
-                if($this->superAdm){
+                if($this->adm){
                     $dono = "<p>Username: $nome</p>";
                 }
                 return <<<HTML
@@ -212,7 +210,9 @@ class PessoalController extends MainController{
             });
             $quotasHTML = implode(' ', $quotasHTML);
         }
-
+        $eventosPaginator = $eventosPaginator->getPageInfo();
+        $quotasPaginator = $quotasPaginator->getPageInfo();
+        $noticiasPaginator = $noticiasPaginator->getPageInfo();
         include_once APPLICATIONPATH.'/views/includes/header.php';
         include_once APPLICATIONPATH.'/views/includes/menu.php';
         include_once APPLICATIONPATH.'/views/pessoal/pessoal-view.php';

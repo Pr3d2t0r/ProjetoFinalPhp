@@ -42,8 +42,13 @@ function mainMenu(id){
     document.getElementById(id).style.display = "block";
     //console.log("Id: "+id);
     for (var i in options) {
-        if (options[i] !== id)
-            document.getElementById(options[i]).style.display = "none";
+        if (options[i] !== id) {
+            try {
+                document.getElementById(options[i]).style.display = "none";
+            }catch (e){
+                console.log(e);
+            }
+        }
     }
 }
 

@@ -39,12 +39,14 @@ class Paginator{
 
     protected function setPageInfo(){
         $info = new stdClass();
-        $info->hasNextPage = $this->currentPage < $this->numPages;
+        $info->hasNextPage = $this->currentPage +1 <= $this->numPages;
         $info->hasPreviousPage = $this->currentPage - 1 > 0;
         $info->pageNum = $this->currentPage;
         $info->offset = ($this->currentPage-1)*$this->itemsPerPage;
         $info->limit = $this->itemsPerPage;
-        $info->show = $this->numPages > 1;
+        $info->show = $this->numPages > 0;
+        $info->pageNum = $this->currentPage;
+        $info->numPages = $this->numPages;
         $this->pageInfo = $info;
     }
 

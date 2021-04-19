@@ -14,11 +14,13 @@
             <ul id="menu">
                 <li>Conta</li>
                 <li>Quotas</li>
-                <?php if (!$superAdm): ?>
+                <?php if (!$this->adm): ?>
                     <li>Eventos que participou</li>
                     <li>Noticias que gostou</li>
                 <?php else: ?>
-                    <li>Socios</li>
+                    <?php if ($this->superAdm): ?>
+                        <li>Socios</li>
+                    <?php endif; ?>
                     <li>Noticias</li>
                     <li>Eventos Ativos</li>
                 <?php endif; ?>
@@ -58,7 +60,7 @@
                 </form>
             </article>
             <article id="noticias">
-                <?php if (!$superAdm): ?>
+                <?php if (!$this->adm): ?>
                     <p>Noticias que gostou</p>
                 <?php else: ?>
                     <p>Noticias</p>
@@ -120,14 +122,18 @@
                 <?php endif; ?>
             </article>
             <article id="eventos">
-                <?php if (!$superAdm): ?>
+                <?php if (!$this->adm): ?>
                     <p>Eventos que participou</p>
                 <?php else: ?>
                     <p>Eventos Ativos</p>
                 <?php endif; ?>
-                <div id="acordion-eventos">
-                    <?php echo $eventosHTML; ?>
-                </div>
+                <?php if ($this->superAdm): ?>
+                    <div id="acordion-eventos">
+                <?php endif; ?>
+                        <?php echo $eventosHTML; ?>
+                <?php if ($this->superAdm): ?>
+                    </div>
+                <?php endif; ?>
                 <?php if (!$this->superAdm):?>
                     <?php if ($eventosPaginator->show): ?>
                         <div class="eventos-controls controls grid">
