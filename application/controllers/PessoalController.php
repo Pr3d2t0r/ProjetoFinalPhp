@@ -118,8 +118,6 @@ class PessoalController extends MainController{
                                 HTML;
             });
         }else{
-            $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
-            $noticias = $noticiasPaginator->itens;
             $eventosPaginator = (new Paginator($eventos, 2, page: $pageNum))->prepare()->use();
             $eventos = $eventosPaginator->itens;
             $quotasPaginator = (new Paginator($quotas, page: $pageNum))->prepare()->use();
@@ -152,6 +150,8 @@ class PessoalController extends MainController{
                 $eventosHTML = implode(' ', $eventosHTML);
             }
         }
+        $noticiasPaginator = (new Paginator($noticias, 2, page: $pageNum))->prepare()->use();
+        $noticias = $noticiasPaginator->itens;
         $eventosHTML = implode(' ', $eventosHTML);
         $noticiasHTML = "<p>Este user ainda não gostou de nenhuma noticia!</p>";
         if (count($noticias)>0){

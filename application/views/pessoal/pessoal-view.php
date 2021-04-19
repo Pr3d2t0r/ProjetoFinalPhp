@@ -93,28 +93,30 @@
             <article id="quotas">
                 <p>Quotas</p>
                 <?php echo $quotasHTML; ?>
-                <?php if ($quotasPaginator->show): ?>
-                    <div class="controls grid">
-                        <?php if ($quotasPaginator->hasPreviousPage): ?>
+                <?php if (!$this->superAdm): ?>
+                    <?php if ($quotasPaginator->show): ?>
+                        <div class="controls grid">
+                            <?php if ($quotasPaginator->hasPreviousPage): ?>
+                                <div>
+                                    <form action="#quotas">
+                                        <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum - 1; ?>">
+                                        <i class="fas fa-arrow-circle-left"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
                             <div>
-                                <form action="#quotas">
-                                    <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum - 1; ?>">
-                                    <i class="fas fa-arrow-circle-left"></i>
-                                </form>
+                                <span><small>Pagina: <?php echo $quotasPaginator->pageNum; ?></small></span>
                             </div>
-                        <?php endif; ?>
-                        <div>
-                            <span><small>Pagina: <?php echo $quotasPaginator->pageNum; ?></small></span>
+                            <?php if ($quotasPaginator->hasNextPage): ?>
+                                <div>
+                                    <form action="#quotas">
+                                        <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum + 1; ?>">
+                                        <i class="fas fa-arrow-circle-right"></i>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php if ($quotasPaginator->hasNextPage): ?>
-                            <div>
-                                <form action="#quotas">
-                                    <input type="hidden" name="page" value="<?php echo $quotasPaginator->pageNum + 1; ?>">
-                                    <i class="fas fa-arrow-circle-right"></i>
-                                </form>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </article>
             <article id="eventos">
