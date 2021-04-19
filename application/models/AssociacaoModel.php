@@ -32,6 +32,11 @@ class AssociacaoModel extends MainModel{
         return isset($result[0]);
     }
 
+    public function userIsOnSameAssociacao($userId){
+        $result = $this->db->select(['id'])->from('socio')->where("id=:id and associacaoId=(select associacaoId from socio where id=:userId)")->runQuery([':id'=>$this->info->id, ':userId'=>$userId]);
+        return isset($result[0]);
+    }
+
     public function insert($nome, $morada, $telefone, $nContribuinte){
         $this->db->insert('associacao')
             ->values([':nome', ':morada', ':telefone', ':nContribuinte'], ['nome', 'morada', 'telefone', 'nContribuinte'])
@@ -127,5 +132,24 @@ class AssociacaoModel extends MainModel{
         $this->db->delete('eventos')
             ->where('associacaoId=:associacaoId')
             ->runQuery([':associacaoId'=>$assocId]);
+    }
+
+    public function socioExists($socioId){
+        $socio = $this->db->select(['id'])
+            ->from('socio')
+            ->where('id=:id')
+            ->runQuery([':id'=>$socioId]);
+        return isset($socio[0]);
+    }
+
+    public function deleteSocio($socioId){
+        $assocId = $this->db->select(['associacaoId'])
+            ->from('socio')
+            ->where('id=:id')
+            ->runQuery([':id'=>$socioId])[0]->associacaoId;
+        $this->db->delete('socio')
+            ->where('id=:id')
+            ->runQuery([':id'=>$socioId]);
+        return $assocId;
     }
 }

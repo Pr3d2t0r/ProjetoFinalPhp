@@ -45,7 +45,7 @@ class AssociacaoController extends MainController{
             include_once APPLICATIONPATH.'/views/includes/footer.php';
             return;
         }
-        if (!$this->model->userIsOnAssociacao($assocId) && !in_array('Superadmin', $this->userInfo->permissions)){
+        if (!$this->model->userIsOnAssociacao($assocId) && !$this->superAdm){
             gotoPage("?error=af");
             return;
         }
@@ -55,6 +55,11 @@ class AssociacaoController extends MainController{
                 $nome = $el->nome;
                 $email = $el->email;
                 $username = $el->username;
+                $delBtn = '';
+                $delPath = HOME_URI."associacao/apagarsocio/$el->id";
+                if ($this->adm)
+                    $delBtn = "<div><a class='btn' href='#' onclick=\"confirma('$delPath')\">Remover</a></div>";
+
                 return <<<HTML
                             <article>
                                 <div class="body">
@@ -66,6 +71,7 @@ class AssociacaoController extends MainController{
                                         <p>Email: <strong>$email</strong></p>
                                         <p>Username: <strong>$username</strong></p>
                                     </div>
+                                    $delBtn
                                 </div>
                             </article>
                         HTML;
@@ -243,5 +249,36 @@ class AssociacaoController extends MainController{
             ];
         }
         echo json_encode($res);
+    }
+
+    public function apagarsocio(){
+        $parametros = ( func_num_args() >= 1 ) ? func_get_arg(0) : [];
+        $nextPage = null;
+        if (isset($parametros['get']['next']))
+            $nextPage = $parametros['get']['next'];
+        $pagina = $parametros['get']['path'];
+        $id = $parametros[0];
+        if (!$this->loggedIn){
+            gotoPage("login/?error=af&next=$pagina".(($nextPage != null)?$nextPage:""));
+            return;
+        }
+        if (!$this->model->socioExists($id)){
+            gotoPage('404/');
+            return;
+        }
+        if ($this->userInfo->id == $id){
+            gotoPage("associacao/".$this->userInfo->associacaoId."?error=nru");
+            return;
+        }
+        if (!$this->model->userIsOnSameAssociacao($id) && !$this->superAdm){
+            gotoPage("?error=af");
+            return;
+        }
+        if (!$this->adm){
+            gotoPage("home/?error=af");
+            return;
+        }
+        $assocId = $this->model->deleteSocio($id);
+        gotoPage("associacao/".$assocId."?success=6");
     }
 }

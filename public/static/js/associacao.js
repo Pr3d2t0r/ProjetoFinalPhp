@@ -51,7 +51,7 @@ function menuLateral(){
 }
 
 function confirma(url) {
-    var conf = confirm('Deseja mesmo apagar esta associacao?');
+    var conf = confirm('Deseja mesmo apagar?');
     if (conf)
         location.href = url;
 }
