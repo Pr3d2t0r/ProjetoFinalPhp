@@ -50,7 +50,9 @@ class Db extends QueryBuilder{
     public function runQuery($infoArray=[], $query=null){
         if ($this->query == ""){
             $pdoQuery = $this->pdo->prepare($query);
-            $pdoQuery->execute($infoArray);
+            foreach($infoArray as $key => $value)
+                $pdoQuery->bindValue($key, $value);
+            $pdoQuery->execute();
         }else{
             $pdoQuery= $this->pdo->prepare($this->query);
             foreach($infoArray as $key => $value)

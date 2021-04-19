@@ -2,48 +2,63 @@
 
 
 class Paginator{
-    private bool $valid;
-    private array $dbItens;
-    public array $pages;
-    public int $limit;
-    public int $numPages;
-    private int $pageNum;
-    private stdClass $obj;
+    protected int $totalItems;
+    protected int $numPages;
+    protected int $itemsPerPage;
+    protected int $currentPage;
+    protected stdClass $pageInfo;
+    protected Db $db;
 
-    public function __construct(array $dbItens, int $limit=3, $page = 0){
-        $this->dbItens = $dbItens;
-        $this->limit = $limit;
-        $this->obj = new stdClass();
-        $this->valid = false;
-        $this->pageNum = $page;
+    /**
+     * Paginator constructor.
+     * @param $totalItems
+     * @param $itemsPerPage
+     * @param $currentPage
+     */
+    public function __construct($totalItems, $itemsPerPage, $currentPage){
+        $this->db = new Db();
+        $this->totalItems = $totalItems;
+        $this->itemsPerPage = $itemsPerPage;
+        $this->currentPage = $currentPage;
+
+        $this->updateNumPages();
+        $this->setPageInfo();
     }
 
-    public function prepare(){
-        $this->pages = chunkArray($this->dbItens, $this->limit);
-        $this->numPages = count($this->pages);
-        if ($this->numPages > 1)
-            $this->valid = true;
-        else
-            $this->valid = false;
-        if (isset($this->pages[$this->pageNum])) {
-            $this->obj->itens = $this->pages[$this->pageNum];
-            $this->obj->hasNextPage = isset($this->pages[$this->pageNum + 1]);
-            $this->obj->hasPreviousPage = isset($this->pages[$this->pageNum - 1]);
-            $this->obj->show = $this->valid;
-            $this->obj->pageNum = $this->pageNum;
-            return $this;
-        }
-        $this->obj->error = true;
-        $this->obj->firstPage = isset($this->pages[1])?1:null;
-        $this->obj->itens = $this->pages[1] ?? [];
-        $this->obj->hasNextPage = isset($this->pages[2]);
-        $this->obj->show = $this->valid;
-        $this->obj->hasPreviousPage = false;
-        $this->obj->pageNum = 1;
+    /**
+     * @return stdClass
+     */
+    public function getPageInfo(): stdClass
+    {
+        return $this->pageInfo;
+    }
 
-        return $this;
+    protected function updateNumPages(){
+        $this->numPages = ($this->itemsPerPage == 0 ? 0 : (int) ceil($this->totalItems/$this->itemsPerPage));
     }
-    public function use(){
-        return $this->obj;
+
+    protected function setPageInfo(){
+        $info = new stdClass();
+        $info->hasNextPage = $this->currentPage < $this->numPages;
+        $info->hasPreviousPage = $this->currentPage - 1 > 0;
+        $info->pageNum = $this->currentPage;
+        $info->offset = ($this->currentPage-1)*$this->itemsPerPage;
+        $info->limit = $this->itemsPerPage;
+        $info->show = $this->numPages > 1;
+        $this->pageInfo = $info;
     }
+
+    /**
+     * @param string $query
+     * o parametro query tem de ter 2 chaves para dar bind na base de dados a :offset :limit e tem de ser uma select query
+     * @param array $args
+     * @return array|null
+     */
+    public function getItens(string $query, array $args = []){
+        if (!$this->pageInfo->show) return [];
+        $query = str_replace(':limit',$this->pageInfo->limit,$query);
+        $query = str_replace(':offset',$this->pageInfo->offset,$query);
+        return $this->db->runQuery($args, query: $query);
+    }
+
 }

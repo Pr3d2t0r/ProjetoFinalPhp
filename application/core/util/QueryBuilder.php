@@ -11,7 +11,7 @@ class QueryBuilder implements QueryBuilderInterface{
      * Guarda a query
      * @var string $query
      */
-    protected string $query;
+    protected string $query="";
 
     /**
      * select

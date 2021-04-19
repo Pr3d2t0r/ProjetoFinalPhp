@@ -168,7 +168,7 @@ class UserModel extends MainModel{
         return $query->runQuery();
     }
 
-    public function getAllEventos($all = true){
+    public function getAllEventos($all = false){
         $query = $this->db->select(['eventos.*','associacao.nome'])
                           ->from('eventos inner join associacao')
                           ->on('eventos.associacaoId=associacao.id');
