@@ -136,3 +136,10 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+.cancel{
+    padding: 5px 10px;
+    border: #1cc8a0 solid 1px;
+    border-radius: 9px;
+    color: #1cc8a0;
+}

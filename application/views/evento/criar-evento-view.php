@@ -25,9 +25,9 @@
                 <input type="submit" value="Criar evento">
                 <?php //todo remover este estilo quando for estilizar ?>
                 <?php if (!$this->superAdm): ?>
-                    <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
+                    <a class="cancel" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
                 <?php else: ?>
-                    <a style="color: #1cc8a0" href="<?php echo HOME_URI . 'noticia/all'?>">Cancel</a>
+                    <a class="cancel" href="<?php echo HOME_URI . 'associacao/all/';?>">Cancel</a>
                 <?php endif; ?>
             </form>
         </div>

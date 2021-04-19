@@ -7,6 +7,6 @@
         <input type="text" name="nContribuinte" placeholder="Numero de contribuinte!" value="<?php echo $nContribuinte ?? ''; ?>"><br /><br />
         <input type="file" multiple="multiple" name="imgs[]"><br /><br />
         <input type="submit" value="Guardar">
-        <a href="<?php echo HOME_URI ;?>associacao/all/">Cancel</a>
+        <a class="cancel" href="<?php echo HOME_URI ;?>associacao/all/">Cancel</a>
     </form>
 </div>
