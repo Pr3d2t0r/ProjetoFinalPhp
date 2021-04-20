@@ -139,7 +139,7 @@ input:checked + .slider:before {
 
 .cancel{
     padding: 5px 10px;
-    border: #1cc8a0 solid 1px;
+    border: #1cc8a0 solid 2px;
     border-radius: 9px;
     color: #1cc8a0;
 }
