@@ -5,7 +5,6 @@
 <?php endif; ?>
 <p style="text-align: center; font-size: 40px; margin-bottom: 30px;">Eventos</p>
 <div class="filter">
-
         <form action="" method="get">
             <div class="grid">
                 <?php if ($this->superAdm): ?>
@@ -22,12 +21,6 @@
                 </div>
             </div>
         </form>
-
-    <div>
-        <form action="" method="get">
-
-        </form>
-    </div>
 </div>
 <div class="event-grid">
     <?php echo $eventosHTML ?? ''; ?>
