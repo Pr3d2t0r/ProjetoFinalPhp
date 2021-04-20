@@ -206,3 +206,33 @@
 #acordion-socios, #acordion-eventos{
     width: 650px;
 }
+
+.perms-panel{
+    text-align: center;
+}
+
+.perms-panel label{
+    font-size: 18px;
+    font-family: 'Ubuntu', sans-serif;
+    color: #102b3e;
+}
+
+.perms-panel input[type="submit"]{
+    border: #102b3e 2px solid;
+    border-radius: 6px;
+    padding: 5px 10px;
+    background-color: #ced8e1;
+    color: #102b3e;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.perms-panel input[type="submit"]:hover{
+    border: #1cc8a0 2px solid;
+    background-color: #102b3e;
+    color: #1cc8a0;
+}
+
+.perms-panel input[type="checkbox"]{
+    cursor: pointer;
+}

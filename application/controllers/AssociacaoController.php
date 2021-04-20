@@ -56,9 +56,13 @@ class AssociacaoController extends MainController{
                 $email = $el->email;
                 $username = $el->username;
                 $delBtn = '';
+                $editBtn = '';
                 $delPath = HOME_URI."associacao/apagarsocio/$el->id";
-                if ($this->adm)
+                $editPath = HOME_URI . "pessoal/perms/$el->id";
+                if ($this->adm) {
                     $delBtn = "<div><a class='btn' href='#' onclick=\"confirma('$delPath')\">Remover</a></div>";
+                    $editBtn = "<div><a class='btn' href='$editPath'>Editar</a></div>";
+                }
 
                 return <<<HTML
                             <article>
@@ -72,6 +76,7 @@ class AssociacaoController extends MainController{
                                         <p>Username: <strong>$username</strong></p>
                                     </div>
                                     $delBtn
+                                    $editBtn
                                 </div>
                             </article>
                         HTML;
