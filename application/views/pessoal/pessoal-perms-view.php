@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main perms-panel">
     <h1>Alterar as permições para <?php echo $username ;?></h1><br />
     <form action="<?php echo HOME_URI .'pessoal/edit/perms/'. $id;?>" method="post">
         <label for="">Admin<input type="checkbox" name="Admin" value="1" <?php if (in_array('Admin', $permissions)) echo "checked"; ?>></label>

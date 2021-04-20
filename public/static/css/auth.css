@@ -66,3 +66,13 @@
     padding-top: 5px;
     margin-left: 0;
 }
+
+.perms{
+    color: #1cc8a0;
+    font-family: 'Ubuntu', sans-serif;
+    margin-left: 10px;
+}
+
+.perms-title{
+    font-size: 28px !important;
+}
