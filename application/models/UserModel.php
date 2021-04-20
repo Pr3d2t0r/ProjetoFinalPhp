@@ -300,4 +300,11 @@ class UserModel extends MainModel{
             ->where('socioId=:userId and status=\'active\'')
             ->runQuery([':userId'=>$this->info->id])[0]->total;
     }
+
+    public function getEmail($socioId){
+        return $this->db->select(['email'])
+            ->from('socio')
+            ->where('id=:id')
+            ->runQuery([':id'=>$socioId])[0]->email;
+    }
 }

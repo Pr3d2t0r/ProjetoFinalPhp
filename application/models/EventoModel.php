@@ -1,7 +1,11 @@
 <?php
 
 
-class EventoModel extends MainModel{
+class EventoModel extends MainModel implements Notifier{
+
+    protected array $observers = [];
+    protected string $change = "";
+
     public function __construct($info = null){
         parent::__construct($info);
         $this->tableName = 'eventos';
@@ -31,6 +35,7 @@ class EventoModel extends MainModel{
         return $this->db->select([$this->tableName.'.*', 'associacao.nome as associacaoNome'])
             ->from($this->tableName.' inner join associacao')
             ->on($this->tableName.'.associacaoId=associacao.id')
+            ->orderBy('eventos.data', 'desc')
             ->runQuery();
     }
 
@@ -38,6 +43,7 @@ class EventoModel extends MainModel{
         return $this->db->select()
             ->from($this->tableName)
             ->where('associacaoId=:associacaoId and eventos.data > NOW()')
+            ->orderBy('eventos.data', 'desc')
             ->runQuery([':associacaoId'=>$associacaoId]);
     }
 
@@ -83,11 +89,24 @@ class EventoModel extends MainModel{
         $this->db->insert('eventos')
             ->values([':titulo', ':conteudo', ':associacaoId', ':data'], ['titulo', 'conteudo', 'associacaoId', 'data'])
             ->runQuery([':titulo'=>$titulo, ':conteudo'=>$conteudo, ':associacaoId'=>$assocId, ':data'=>$data]);
-        return $this->db->select(['id'])
+        $eventoId = $this->db->select(['id'])
             ->from('eventos')
             ->orderBy('id', 'DESC')
             ->limit(1)
             ->runQuery()[0]->id;
+        $this->change = "insert-event";
+        $sociosID = $this->db->select(['id'])
+            ->from('socio')
+            ->where("associacaoId=:associacaoId")
+            ->runQuery([':associacaoId'=>$assocId]);
+        iterate($sociosID, function ($el) use ($eventoId) {
+            $this->atach(new UserObserver($el->id, $eventoId));
+        });
+        $this->notify();
+        iterate($sociosID, function ($el) use ($eventoId) {
+            $this->detach(new UserObserver($el->id, $eventoId));
+        });
+        return $eventoId;
     }
 
     public function update($id, $titulo, $conteudo, $data){
@@ -110,5 +129,20 @@ class EventoModel extends MainModel{
         if ($evento == false)
             return false;
         return $this->insert($evento->titulo, $evento->conteudo, $associacaoId, $evento->data);
+    }
+
+    public function atach(Observer $observer){
+        $this->observers[] = $observer;
+    }
+    public function detach(Observer $observer){
+        $this->observers = filter($this->observers, function ($el) use ($observer){
+            return $el !== $observer;
+        });
+    }
+
+    public function notify(){
+        iterate($this->observers, function ($el){
+            $el->send($this->change);
+        });
     }
 }
