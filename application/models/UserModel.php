@@ -307,4 +307,27 @@ class UserModel extends MainModel{
             ->where('id=:id')
             ->runQuery([':id'=>$socioId])[0]->email;
     }
+
+    public function addQuotasAll(){
+        // faz o inner join para ignorar users tipo o super admin como não pertence a nenhuma associacao valida
+        $today = date('Y-m-d');
+        $dateT = (new DateTime("+1 month"))->format("Y-m-d");
+        $socios = $this->db->select(['socio.id as id'])
+            ->from($this->tableName.' join associacao')
+            ->on('socio.associacaoId = associacao.id')
+            ->runQuery();
+        $result = true;
+        iterate($socios, function ($el) use ($dateT, $today, &$result) {
+           $result = $this->db->select()
+               ->from('quotas')
+               ->where('socioId=:socioId and dataComeco=:dataComeco and dataTermino=:dataTermino')
+               ->runQuery([':socioId'=>$el->id, ':dataComeco'=>$today, ':dataTermino'=>$dateT]);
+           $result = !isset($result[0]);
+           if ($result)
+               $this->db->insert('quotas')
+                   ->values([':socioId', ':dataComeco', ':dataTermino', ':preco', '"active"'], ['socioId', 'dataComeco', 'dataTermino', 'preco', 'status'])
+                   ->runQuery([':socioId'=>$el->id, ':dataComeco'=>$today, ':dataTermino'=>$dateT, ':preco'=>100]);
+        });
+        return $result;
+    }
 }

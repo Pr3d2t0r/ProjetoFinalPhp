@@ -246,4 +246,14 @@ class PessoalController extends MainController{
         include_once APPLICATIONPATH.'/views/pessoal/pessoal-perms-view.php';
         include_once APPLICATIONPATH.'/views/includes/footer.php';
     }
+
+    public function adicionarquotas(){
+        $dia = date('d');
+        if($dia == 1)
+            if($this->model->addQuotasAll()) {
+                echo '{"sending":true}';
+                return;
+            }
+        echo '{"sending":false}';
+    }
 }
