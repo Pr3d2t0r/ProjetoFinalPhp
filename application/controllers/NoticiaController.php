@@ -106,7 +106,7 @@ class NoticiaController extends MainController{
             return;
         }
         if (!$this->model->userIsOnNoticiaAssociacao($parametros[0]) && !$this->hasPermissions('Superadmin', $this->userInfo->permissions)){
-            gotoPage("home/?error=afen");
+            gotoPage("home/?error=af");
             return;
         }
         include_once APPLICATIONPATH.'/views/includes/header.php';
@@ -131,7 +131,7 @@ class NoticiaController extends MainController{
             return;
         }
         if (!$this->model->userIsOnNoticiaAssociacao($id) && !$this->hasPermissions('Superadmin', $this->userInfo->permissions)){
-            gotoPage("home/?error=afen");
+            gotoPage("home/?error=af");
             return;
         }
         $this->model->delete($id);

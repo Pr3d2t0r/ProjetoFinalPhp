@@ -23,7 +23,6 @@
                     </div>
                 <?php endif; ?>
                 <input type="submit" value="Criar evento">
-                <?php //todo remover este estilo quando for estilizar ?>
                 <?php if (!$this->superAdm): ?>
                     <a class="cancel" href="<?php echo HOME_URI . 'associacao/' . $assocId;?>">Cancel</a>
                 <?php else: ?>

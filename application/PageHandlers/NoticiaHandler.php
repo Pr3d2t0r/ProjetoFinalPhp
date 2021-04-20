@@ -53,7 +53,7 @@ class NoticiaHandler extends PageHandler{
         $assocId = $_POST['associacaoId'];
         $userAssocId = (new Db)->getUserInfo($userId)->associacaoId;
         if ($assocId != $userAssocId && !LoginCore::isSuperAdmin($userId)){
-            gotoPage("home/?error=afen");
+            gotoPage("home/?error=af");
             return;
         }
         if(move_uploaded_file($imagem['tmp_name'], $absPath) === false){
@@ -96,7 +96,7 @@ class NoticiaHandler extends PageHandler{
                 return;
             }
             if (!$this->model->userIsOnNoticiaAssociacao($parametros[0]) && !LoginCore::isSuperAdmin($userId)){
-                gotoPage("home/?error=afen");
+                gotoPage("home/?error=af");
                 return;
             }
             do{

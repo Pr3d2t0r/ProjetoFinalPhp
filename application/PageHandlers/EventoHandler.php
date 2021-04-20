@@ -139,7 +139,7 @@ class EventoHandler extends PageHandler{
         }
         $id = $this->model->clone($eventoId, $associacaoId);
         if ($id == false){
-            gotoPage('pessoal/?error=ene');
+            gotoPage('pessoal/?error=ede');
             return;
         }
         gotoPage('evento/'.$id.'/?success=9');
